@@ -1,8 +1,11 @@
 import os
 
 from flask import Flask
+from flask_restful import Api
 
 from backend import db_models as dbm
+from resource.artwork import Artwork
+from resource.gallery import Gallery
 
 
 def init_app():
@@ -14,7 +17,7 @@ def init_app():
 
     dbm.db.init_app(app)
     if not os.path.exists(
-            os.path.join(os.getcwd(), "instance", "database.db")
+        os.path.join(os.getcwd(), "instance", "database.db")
     ):
         dbm.db.create_all()
 
@@ -23,6 +26,10 @@ def init_app():
 
 def main():
     app = init_app()
+
+    api = Api(app)
+    api.add_resource(Artwork, "/artwork")
+    api.add_resource(Gallery, "/gallery")
 
     app.run(debug=True)
 
