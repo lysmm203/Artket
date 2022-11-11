@@ -4,6 +4,7 @@ import io
 
 from PIL import Image
 
+ARTPIC_LOC = "instance/artpic/"
 
 def get_bytestr_artpic(artwork_uid):
     """
@@ -11,7 +12,7 @@ def get_bytestr_artpic(artwork_uid):
     :return: base64 str repr the picture of the art
     """
     byte_arr = io.BytesIO()
-    artpic_path = glob.glob(f"instance/{artwork_uid}" + '*')[0]
+    artpic_path = glob.glob(ARTPIC_LOC + str(artwork_uid) + "*")[0]
 
     # reads and convert PIL img to jpeg and store in byte arr
     pil_img = Image.open(artpic_path, mode='r')

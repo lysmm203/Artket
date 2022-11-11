@@ -22,7 +22,7 @@ def img_display():
 
 @app.route('/gallery_display')
 def gallery_display():
-    response = requests.get(BASE + "/gallery", {"artwork_num": 4})
+    response = requests.get(BASE + "/gallery", {"artwork_num": 3})
     response = response.json()
 
     html_div_str = str()
