@@ -14,7 +14,7 @@ class ArtworkModel(db.Model):
     created_location = db.Column(db.String(200), nullable=False)
     min_value = db.Column(db.Integer, nullable=False)
 
-    def to_json(self):
+    def to_dict(self):
         return {
             "uid": self.uid,
             "name": self.name,
@@ -39,7 +39,7 @@ class UserModel(db.Model):
     mobile = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
-    def to_json(self):
+    def to_dict(self):
         return {
             "uid": self.uid,
             "email": self.email,
