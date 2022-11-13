@@ -9,6 +9,8 @@ class ArtworkModel(db.Model):
     genre = db.Column(db.String(500), nullable=False)
     medium = db.Column(db.String(200), nullable=False)
     surface = db.Column(db.String(200), nullable=False)
+    width = db.Column(db.Integer, nullable=False)
+    height = db.Column(db.Integer, nullable=False)
     artist = db.Column(db.String(500), nullable=False)
     created_date = db.Column(db.String(10), nullable=False)
     created_location = db.Column(db.String(200), nullable=False)
@@ -21,6 +23,8 @@ class ArtworkModel(db.Model):
             "genre": self.genre,
             "medium": self.medium,
             "surface": self.surface,
+            "width": self.width,
+            "height": self.height,
             "artist": self.artist,
             "created_date": self.created_date,
             "created_location": self.created_location,

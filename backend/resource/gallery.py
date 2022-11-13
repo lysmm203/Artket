@@ -28,6 +28,8 @@ class Gallery(Resource):
                         "genre": <str>,
                         "medium": <str>,
                         "surface": <str>,
+                        "width": <int>,
+                        "height": <int>,
                         "artist": <str>,
                         "created_date": <str>,
                         "created_location": <str>,
