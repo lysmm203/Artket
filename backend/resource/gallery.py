@@ -23,15 +23,15 @@ class Gallery(Resource):
             [
                 {
                     "info": {
-                        "uid": <uid>,
-                        "name": <name>,
-                        "genre": <genre>,
-                        "medium": <medium>,
-                        "surface": <surface>,
-                        "artist": <artist>,
-                        "created_date": <created_date>,
-                        "created_location": <created_location>,
-                        "min_value": <min_value>,
+                        "uid": <int>,
+                        "name": <str>,
+                        "genre": <str>,
+                        "medium": <str>,
+                        "surface": <str>,
+                        "artist": <str>,
+                        "created_date": <str>,
+                        "created_location": <str>,
+                        "min_value": <int>,
                     },
                     "artpic": <base64 str repr the picture of the art>
                 },

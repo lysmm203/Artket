@@ -13,7 +13,7 @@ def init_app():
     app.app_context().push()
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     dbm.db.init_app(app)
     if not os.path.exists(

@@ -1,25 +1,33 @@
-import base64 as b64
-import glob
-import io
-
-from PIL import Image
+import json
 
 ARTPIC_LOC = "instance/artpic/"
+ART_HISTORY_LOC = "instance/history.json"
+
 
 def get_bytestr_artpic(artwork_uid):
     """
     :param artwork_uid: (int) uid of the artwork
     :return: base64 str repr the picture of the art
     """
-    byte_arr = io.BytesIO()
-    artpic_path = glob.glob(ARTPIC_LOC + str(artwork_uid) + "*")[0]
+    with open(f"{ARTPIC_LOC}{artwork_uid}_base64.txt", "r") as infile:
+        return infile.read()
 
-    # reads and convert PIL img to jpeg and store in byte arr
-    pil_img = Image.open(artpic_path, mode='r')
-    pil_img = pil_img.convert("RGB")
-    pil_img.save(byte_arr, format="JPEG")
 
-    # encode as base64
-    encoded_img = b64.encodebytes(byte_arr.getvalue()).decode('ascii')
-
-    return encoded_img
+def get_artwork_history(artwork_uid):
+    """
+    :param artwork_uid: (int) uid of the artwork
+    :return: dict repr provenance, price and sale history of the artwork
+        {
+            "price_history": <list of int repr price history>,
+            "sale_history": <list of dict (buyer, price)> [
+              {
+                "buyer": <str repr buyer name>,
+                "price": <int repr price the buyer pay for the art>
+              },
+            ],
+            "provenance": <str repr the literature of the art>
+        }
+    """
+    with open(ART_HISTORY_LOC) as history_database:
+        data = json.load(history_database)
+        return data[str(artwork_uid)]

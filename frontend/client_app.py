@@ -7,7 +7,7 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route('/img_display')
 def img_display():
-    response = requests.get(BASE + "/artwork", {"uid": 4})
+    response = requests.get(BASE + "/artwork", {"uid": 10})
     return f'''
         <html>
           <body>
@@ -22,7 +22,7 @@ def img_display():
 
 @app.route('/gallery_display')
 def gallery_display():
-    response = requests.get(BASE + "/gallery", {"artwork_num": 3})
+    response = requests.get(BASE + "/gallery", {"artwork_num": 5})
     response = response.json()
 
     html_div_str = str()

@@ -22,15 +22,18 @@ class Artwork(Resource):
         :return: dict (before jsonify) repr an artwork data
             {
                 "info": {
-                    "uid": <uid>,
-                    "name": <name>,
-                    "genre": <genre>,
-                    "medium": <medium>,
-                    "surface": <surface>,
-                    "artist": <artist>,
-                    "created_date": <created_date>,
-                    "created_location": <created_location>,
-                    "min_value": <min_value>,
+                    "uid": <int>,
+                    "name": <str>,
+                    "genre": <str>,
+                    "medium": <str>,
+                    "surface": <str>,
+                    "artist": <str>,
+                    "created_date": <str>,
+                    "created_location": <str>,
+                    "min_value": <int>,
+                    "price_history": <list of int>,
+                    "sale_history": <list of dict(buyer, price)>,
+                    "provenance": <str>,
                 },
                 "artpic": <base64 str repr the picture of the art>
             }
@@ -44,5 +47,9 @@ class Artwork(Resource):
         response = dict()
         response["info"] = artwork_with_uid.to_dict()
         response["artpic"] = utils.get_bytestr_artpic(artwork_uid=uid)
+
+        artwork_history = utils.get_artwork_history(artwork_uid=uid)
+        for field in artwork_history:
+            response["info"][field] = artwork_history[field]
 
         return jsonify(response)
