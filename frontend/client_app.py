@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import requests
 from flask import Flask
 
@@ -64,6 +66,31 @@ def gallery_display():
           <body>
             <div>
               {html_div_str}
+            </div>
+          </body>
+        </html>
+        """
+
+
+@app.route("/")
+def signin_user():
+    response = requests.post(
+        BASE + "/user",
+        {
+            "action": "sign-in",
+            # "uid": 1,
+            "email": "dev01@artket.com",
+            # "mobile": "3309885091",
+            "password": "dev_pw_test",
+        },
+    )
+
+    pprint(response.json())
+    return f"""
+        <html>
+          <body>
+            <div>
+              <p>{response.json()}</p>
             </div>
           </body>
         </html>

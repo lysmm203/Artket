@@ -11,7 +11,7 @@ class Artwork(Resource):
         name="uid",
         type=int,
         required=True,
-        help="uid of the artwork must be provided.",
+        help='Missing "uid" arg. uid of the artwork must be provided.',
         location="values",
     )
 

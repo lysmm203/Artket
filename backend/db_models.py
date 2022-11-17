@@ -43,16 +43,22 @@ class ArtworkModel(db.Model):
 
 class UserModel(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), nullable=False)
-    mobile = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    mobile = db.Column(db.String(20), nullable=False, unique=True)
+    username = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+    ranking = db.Column(db.Integer, nullable=False)
+
+    def get_password(self):
+        return self.password
 
     def to_dict(self):
         return {
             "uid": self.uid,
             "email": self.email,
             "mobile": self.mobile,
-            "password": self.password,
+            "username": self.username,
+            "ranking": self.ranking,
         }
 
     # In UserJson: saved, cart
