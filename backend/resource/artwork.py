@@ -26,13 +26,9 @@ class Artwork(Resource):
                     "name": <str>,
                     "genre": <str>,
                     "medium": <str>,
-                    "surface": <str>,
-                    "width": <int>,
-                    "height": <int>,
-                    "artist": <str>,
-                    "created_date": <str>,
-                    "created_location": <str>,
-                    "min_value": <int>,
+                    ...
+                    # fields list can be seen at db_models.ArtworkModel
+                    ...
                     "price_history": <list of int>,
                     "sale_history": <list of dict(buyer, price)>,
                     "provenance": <str>,

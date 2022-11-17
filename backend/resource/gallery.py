@@ -128,13 +128,8 @@ def get_artworks_by_query(curr_query):
                     "name": <str>,
                     "genre": <str>,
                     "medium": <str>,
-                    "surface": <str>,
-                    "width": <int>,
-                    "height": <int>,
-                    "artist": <str>,
-                    "created_date": <str>,
-                    "created_location": <str>,
-                    "min_value": <int>,
+                    ...
+                    # fields list can be seen at db_models.ArtworkModel
                 },
                 "artpic": <base64 str repr the picture of the art>
             },
@@ -256,13 +251,8 @@ class Gallery(Resource):
                         "name": <str>,
                         "genre": <str>,
                         "medium": <str>,
-                        "surface": <str>,
-                        "width": <int>,
-                        "height": <int>,
-                        "artist": <str>,
-                        "created_date": <str>,
-                        "created_location": <str>,
-                        "min_value": <int>,
+                        ...
+                        # fields list can be seen at db_models.ArtworkModel
                     },
                     "artpic": <base64 str repr the picture of the art>
                 },
@@ -270,9 +260,9 @@ class Gallery(Resource):
                 {...},
             ]
         """
-        query = dbm.ArtworkModel.query
-        endpoint_args = self.get_args.parse_args()
+        query = dbm.ArtworkModel.query.filter(dbm.ArtworkModel.is_sold == 0)
 
+        endpoint_args = self.get_args.parse_args()
         query = get_query_with_filter_args(
             curr_query=query,
             filter_args=endpoint_args,
