@@ -24,20 +24,20 @@ def img_display():
 def gallery_display():
     response = requests.get(BASE + "/gallery")
     # response = requests.get(BASE + "/gallery", {
-    #     "artwork_num": 5,
-    #     "artist_filter": [
-    #         "Vincent Van Gogh",
-    #         "Gustav Klimt",
-    #     ],
-    #     "medium_filter": [
-    #         "gold leaf",
-    #         "graphite",
-    #     ],
-    #     "created_date_filter": "1485-1565",
-    #     "min_value_filter": "240000-25000000",
-    #     "width_filter": "390-920",
+    #     # "artwork_num": 5,
+    #     # "artist_filter": [
+    #     #     "Vincent Van Gogh",
+    #     #     "Gustav Klimt",
+    #     # ],
+    #     # "medium_filter": [
+    #     #     "gold leaf",
+    #     #     "graphite",
+    #     # ],
+    #     # "created_date_filter": "1485-1565",
+    #     # "min_value_filter": "240000-25000000",
+    #     # "width_filter": "390-920",
     #     "height_filter": "445-737",
-    #     "order_by": "min_value",
+    #     "order_by": "artist",
     #     "order_decrease": "True",
     # })
     # response = requests.get(BASE + "/gallery", {
