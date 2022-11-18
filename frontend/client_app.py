@@ -72,16 +72,18 @@ def gallery_display():
         """
 
 
+@app.route("/sign_in")
 @app.route("/")
 def signin_user():
     response = requests.post(
-        BASE + "/user",
-        {
-            "action": "sign-in",
-            # "uid": 1,
-            "email": "dev01@artket.com",
-            # "mobile": "3309885091",
-            "password": "dev_pw_test",
+        BASE + "/get_user",
+        json={
+            "data": {
+                # "uid": 1,
+                # "email": "dev01@artket.com",
+                "mobile": "+13308575093",
+                "password": "dev_pw_test",
+            }
         },
     )
 
@@ -97,9 +99,39 @@ def signin_user():
         """
 
 
+@app.route("/sign_up")
+def signup_user():
+    response = requests.put(
+        BASE + "/create_user",
+        json={
+            "data": {
+                "email": "dev03@artket.com",
+                "mobile": "+133---098(85)09-3",
+                "username": "dev03",
+                "password": "dev_pw_test",
+                "invitation_code": "w~G.^zz!YO0>/KwBUBIX",
+            }
+        },
+    )
+
+    print(response)
+
+    return f"""
+        <html>
+          <body>
+            <div>
+              <p>{response.json()}</p>
+            </div>
+          </body>
+        </html>
+        """
+
+
 def main():
     # http://127.0.0.1:8000/img_display
     # http://127.0.0.1:8000/gallery_display
+    # http://127.0.0.1:8000/sign_in
+    # http://127.0.0.1:8000/sign_up
     app.run(debug=True, port=8000)
 
 

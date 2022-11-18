@@ -6,7 +6,7 @@ from flask_restful import Api
 from backend import db_models as dbm
 from resource.artwork import Artwork
 from resource.gallery import Gallery
-from resource.user import User
+from resource.user import GetUser, CreateUser
 
 
 def init_app():
@@ -31,7 +31,9 @@ def main():
     api = Api(app)
     api.add_resource(Artwork, "/artwork")
     api.add_resource(Gallery, "/gallery")
-    api.add_resource(User, "/user")
+
+    api.add_resource(GetUser, "/get_user")
+    api.add_resource(CreateUser, "/create_user")
 
     app.run(debug=True)
 
