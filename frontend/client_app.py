@@ -9,7 +9,9 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route("/img_display")
 def img_display():
-    response = requests.get(BASE + "/artwork", {"uid": 10})
+    response = requests.get(BASE + "/artwork", json={"data": {"uid": 10}})
+
+    print(response)
     return f"""
         <html>
           <body>
@@ -52,6 +54,7 @@ def gallery_display():
     #     "height_filter": "1800-1800",
     # })
 
+    print(response)
     response = response.json()
 
     html_div_str = str()
@@ -73,7 +76,6 @@ def gallery_display():
 
 
 @app.route("/sign_in")
-@app.route("/")
 def signin_user():
     response = requests.post(
         BASE + "/get_user",
@@ -87,7 +89,7 @@ def signin_user():
         },
     )
 
-    pprint(response.json())
+    print(response)
     return f"""
         <html>
           <body>
@@ -115,7 +117,6 @@ def signup_user():
     )
 
     print(response)
-
     return f"""
         <html>
           <body>

@@ -1,4 +1,5 @@
 import re
+from http import HTTPStatus as Hsta
 
 import phonenumbers as pn
 from flask_restful import Resource, reqparse
@@ -11,32 +12,38 @@ def get_user(uid=None, email=None, mobile=None, password=None):
         error_msg = (
             "User's uid, email address, or mobile number must " "be provided"
         )
-        return {"error_msg": error_msg}, 401
+        return {"error_msg": error_msg}, Hsta.UNAUTHORIZED
 
     if not password:
-        return {"error_msg": "Password must be provided"}, 401
+        return {"error_msg": "Password must be provided"}, Hsta.UNAUTHORIZED
 
     user = None
-    if uid:
+    if not user and uid:
         user = dbm.UserModel.query.filter_by(uid=uid).first()
-    elif email:
+
+    if not user and email:
         user = dbm.UserModel.query.filter_by(email=email).first()
-    elif mobile:
+
+    if not user and mobile:
         user = dbm.UserModel.query.filter_by(
             mobile=pn.format_number(
                 pn.parse(mobile), pn.PhoneNumberFormat.E164
             )
         ).first()
 
+    if not user:
+        error_msg = "No user with provided uid, email, or mobile"
+        return {"error_msg": error_msg}, Hsta.NOT_FOUND
+
     if user.get_password() == password:
-        return user.to_dict(), 200
+        return user.to_dict(), Hsta.OK
     else:
-        return {"error_msg": "Incorrect password"}, 401
+        return {"error_msg": "Incorrect password"}, Hsta.UNAUTHORIZED
 
 
 class GetUser(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(name="data", type=dict, location="json")
+    parser.add_argument(name="data", type=dict, required=True, location="json")
 
     def post(self):
         data = self.parser.parse_args()["data"]
@@ -66,16 +73,16 @@ def validate_create_user_query(data_dict):
             "the query"
         )
 
-        return False, {"error_msg": error_msg}, 400
+        return False, {"error_msg": error_msg}, Hsta.BAD_REQUEST
 
     email_regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
     if not re.fullmatch(email_regex, data_dict["email"]):
-        return False, {"error_msg": "Invalid email address"}, 400
+        return False, {"error_msg": "Invalid email address"}, Hsta.BAD_REQUEST
 
     if not pn.is_valid_number(pn.parse(data_dict["mobile"])):
-        return False, {"error_msg": "Invalid mobile number"}, 400
+        return False, {"error_msg": "Invalid mobile number"}, Hsta.BAD_REQUEST
 
-    return True, {"error_msg": ""}, 200
+    return True, {"error_msg": ""}, Hsta.OK
 
 
 def create_user(data_dict):
@@ -84,14 +91,14 @@ def create_user(data_dict):
     ).first()
 
     if existed_user:
-        return {"error_msg": "Existed user"}, 409
+        return {"error_msg": "Existed user"}, Hsta.CONFLICT
 
     invite_code = dbm.InvitationCodeModel.query.filter_by(
         available_code=data_dict["invitation_code"]
     ).first()
 
     if not invite_code:
-        return {"error_msg": "Incorrect invitation_code"}, 404
+        return {"error_msg": "Incorrect invitation_code"}, Hsta.UNAUTHORIZED
 
     dbm.db.session.delete(invite_code)
 
@@ -107,12 +114,12 @@ def create_user(data_dict):
     dbm.db.session.add(new_user)
     dbm.db.session.commit()
 
-    return new_user.to_dict(), 200
+    return new_user.to_dict(), Hsta.OK
 
 
 class CreateUser(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(name="data", type=dict, location="json")
+    parser.add_argument(name="data", type=dict, required=True, location="json")
 
     def put(self):
         data = self.parser.parse_args()["data"]

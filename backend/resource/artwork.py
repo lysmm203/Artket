@@ -1,19 +1,12 @@
-from flask import jsonify
-from flask_restful import Resource, reqparse, abort
-
+from flask_restful import Resource, reqparse
+from http import HTTPStatus as Hsta
 import backend.db_models as dbm
 import backend.utils as utils
 
 
 class Artwork(Resource):
-    get_args = reqparse.RequestParser()
-    get_args.add_argument(
-        name="uid",
-        type=int,
-        required=True,
-        help='Missing "uid" arg. uid of the artwork must be provided.',
-        location="values",
-    )
+    parser = reqparse.RequestParser()
+    parser.add_argument(name="data", type=dict, required=True, location="json")
 
     def get(self):
         """
@@ -36,11 +29,22 @@ class Artwork(Resource):
                 "artpic": <base64 str repr the picture of the art>
             }
         """
-        uid = self.get_args.parse_args()["uid"]
+        data = self.parser.parse_args()["data"]
+        if "uid" not in data or not isinstance(data["uid"], int):
+            error_msg = (
+                'Invalid or missing "uid" field. "uid" field must '
+                'have type int and be provided in "data" key in '
+                "json kwarg"
+            )
+
+            return {"error_msg": error_msg}, Hsta.BAD_REQUEST
+
+        uid = data["uid"]
         artwork_with_uid = dbm.ArtworkModel.query.filter_by(uid=uid).first()
 
         if not artwork_with_uid:
-            abort(404, message=f"Artwork with uid {uid} does not exist.")
+            error_msg = f"Artwork with uid {uid} does not exist."
+            return {"error_msg": error_msg}, Hsta.NOT_FOUND
 
         response = dict()
         response["info"] = artwork_with_uid.to_dict()
@@ -50,4 +54,4 @@ class Artwork(Resource):
         for field in artwork_history:
             response["info"][field] = artwork_history[field]
 
-        return jsonify(response)
+        return response, Hsta.OK
