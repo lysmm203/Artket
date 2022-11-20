@@ -10,7 +10,7 @@ import backend.db_models as dbm
 def get_user(uid=None, email=None, mobile=None, password=None):
     if not any([uid, email, mobile]):
         error_msg = (
-            "User's uid, email address, or mobile number must " "be provided"
+            "User's uid, email address, or mobile number must be provided"
         )
         return {"error_msg": error_msg}, Hsta.UNAUTHORIZED
 

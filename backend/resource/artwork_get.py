@@ -1,10 +1,25 @@
-from flask_restful import Resource, reqparse
 from http import HTTPStatus as Hsta
+
+from flask_restful import Resource, reqparse
+
 import backend.db_models as dbm
 import backend.utils as utils
 
 
-class Artwork(Resource):
+def validate_get_artwork_query(data_dict):
+    if "uid" not in data_dict or not isinstance(data_dict["uid"], int):
+        error_msg = (
+            'Invalid or missing "uid" field. "uid" field must '
+            'have type int and be provided in "data" key in '
+            "json kwarg"
+        )
+
+        return False, {"error_msg": error_msg}, Hsta.BAD_REQUEST
+
+    return True, {"error_msg": ""}, Hsta.OK
+
+
+class GetArtwork(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(name="data", type=dict, required=True, location="json")
 
@@ -30,14 +45,10 @@ class Artwork(Resource):
             }
         """
         data = self.parser.parse_args()["data"]
-        if "uid" not in data or not isinstance(data["uid"], int):
-            error_msg = (
-                'Invalid or missing "uid" field. "uid" field must '
-                'have type int and be provided in "data" key in '
-                "json kwarg"
-            )
+        is_valid, error_msg, status_code = validate_get_artwork_query(data)
 
-            return {"error_msg": error_msg}, Hsta.BAD_REQUEST
+        if not is_valid:
+            return error_msg, status_code
 
         uid = data["uid"]
         artwork_with_uid = dbm.ArtworkModel.query.filter_by(uid=uid).first()

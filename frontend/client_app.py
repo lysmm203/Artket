@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import requests
 from flask import Flask
 
@@ -9,7 +7,7 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route("/img_display")
 def img_display():
-    response = requests.get(BASE + "/artwork", json={"data": {"uid": 10}})
+    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 10}})
 
     print(response)
     return f"""
@@ -22,6 +20,35 @@ def img_display():
           </body>
         </html>
         """
+
+
+@app.route("/sell_art")
+@app.route("/")
+def sell_art():
+    response = requests.put(
+        BASE + "/artwork/sell",
+        json={
+            "data": {
+                "name": "Starry Night 01",
+                "genre": "post-impressionism",
+                "medium": "oil painting",
+                "surface": "canvas",
+                "width": 921,
+                "height": 737,
+                "artist": "Vincent Van Gogh",
+                "created_date": "1889",
+                "created_location": "France",
+                "min_value": 100000000,
+                "seller_uid": 1,
+                "seller_password": "dev_pw_test",
+            }
+        },
+    )
+
+    print(response)
+    print(response.json())
+
+    return f"{response.json()}"
 
 
 @app.route("/gallery_display")
@@ -78,7 +105,7 @@ def gallery_display():
 @app.route("/sign_in")
 def signin_user():
     response = requests.post(
-        BASE + "/get_user",
+        BASE + "/user/get",
         json={
             "data": {
                 # "uid": 1,
@@ -104,7 +131,7 @@ def signin_user():
 @app.route("/sign_up")
 def signup_user():
     response = requests.put(
-        BASE + "/create_user",
+        BASE + "/user/create",
         json={
             "data": {
                 "email": "dev03@artket.com",
