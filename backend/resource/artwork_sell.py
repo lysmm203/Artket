@@ -44,10 +44,10 @@ def validate_sell_artwork_query(data_dict):
         )
 
     if not all(
-        [
-            type(data_dict[_key]) == required_keys_type[_key]
-            for _key in data_dict
-        ]
+            [
+                type(data_dict[_key]) == required_keys_type[_key]
+                for _key in data_dict
+            ]
     ):
         return (
             False,
@@ -120,7 +120,6 @@ def create_artwork_for_sell(data_dict):
         created_location=data_dict["created_location"],
         min_value=data_dict["min_value"],
         seller=data_dict["seller_uid"],
-        is_sold=0,
     )
     dbm.db.session.add(new_artwork)
     dbm.db.session.commit()
@@ -133,8 +132,6 @@ class SellArtwork(Resource):
     parser.add_argument(name="data", type=dict, required=True, location="json")
 
     def put(self):
-        # TODO: need to update the user data base when they put an artwork up
-        #  for sell
         data = self.parser.parse_args()["data"]
 
         is_valid, error_msg, status_code = validate_sell_artwork_query(data)
