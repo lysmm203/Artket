@@ -7,7 +7,8 @@ from backend import db_models as dbm
 from resource.artwork_get import GetArtwork
 from resource.artwork_sell import SellArtwork
 from resource.gallery import Gallery
-from resource.user import GetUser, CreateUser
+from resource.user_create import CreateUser
+from resource.user_get import GetUser
 
 
 def init_app():
@@ -22,6 +23,12 @@ def init_app():
         os.path.join(os.getcwd(), "instance", "database.db")
     ):
         dbm.db.create_all()
+
+        import backend.db_generator as model
+
+        model.artwork_db_generator(dbm.db.session, dbm.ArtworkModel)
+        model.user_db_generator(dbm.db.session, dbm.UserModel)
+        model.code_db_generator(dbm.db.session, dbm.InvitationCodeModel)
 
     return app
 

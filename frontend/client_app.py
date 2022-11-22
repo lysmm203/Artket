@@ -134,11 +134,11 @@ def signup_user():
         BASE + "/user/create",
         json={
             "data": {
-                "email": "dev03@artket.com",
-                "mobile": "+133---098(85)09-3",
-                "username": "dev03",
+                "email": "dev02@artket.com",
+                "mobile": "+133---098(85)09-2",
+                "username": "dev02",
                 "password": "dev_pw_test",
-                "invitation_code": "w~G.^zz!YO0>/KwBUBIX",
+                "invitation_code": "_}x)Hak98u{%^?5tc$wu",
             }
         },
     )
