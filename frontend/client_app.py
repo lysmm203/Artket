@@ -1,6 +1,8 @@
 import requests
 from flask import Flask
 
+from frontend.utils import convert_artpic_to_base64str
+
 app = Flask(__name__)
 BASE = "http://127.0.0.1:5000"
 
@@ -26,12 +28,14 @@ def img_display():
 # http://127.0.0.1:8000/sell_art
 @app.route("/sell_art")
 def sell_art():
-    # TODO: need artpic field
     response = requests.put(
         BASE + "/artwork/sell",
         json={
             "data": {
-                "name": "Starry Night 01",
+                "artpic": convert_artpic_to_base64str(
+                    "/Users/dukedao/Downloads/git_style.png"
+                ),
+                "name": "GitHub Guild Line",
                 "genre": "post-impressionism",
                 "medium": "oil painting",
                 "surface": "canvas",
