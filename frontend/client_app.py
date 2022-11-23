@@ -23,7 +23,6 @@ def img_display():
 
 
 @app.route("/sell_art")
-@app.route("/")
 def sell_art():
     response = requests.put(
         BASE + "/artwork/sell",
@@ -41,6 +40,30 @@ def sell_art():
                 "min_value": 100000000,
                 "seller_uid": 1,
                 "seller_password": "dev_pw_test",
+            }
+        },
+    )
+
+    print(response)
+    print(response.json())
+
+    return f"{response.json()}"
+
+
+@app.route("/buy_art")
+@app.route("/")
+def buy_art():
+    response = requests.post(
+        BASE + "/artwork/buy",
+        json={
+            "data": {
+                "buyer_uid": 2,
+                "buyer_password": "dev_pw_test",
+                "artwork_uid": 1,
+                "card_number": 378282246310005,
+                "expire_date": "11/25",
+                "cvv_code": 498,
+                "paid_amount": 100000000,
             }
         },
     )
@@ -108,9 +131,9 @@ def signin_user():
         BASE + "/user/get",
         json={
             "data": {
-                # "uid": 1,
-                # "email": "dev01@artket.com",
-                "mobile": "+13308575093",
+                "uid": 2,
+                # "email": "dev02@artket.com",
+                # "mobile": "+13308575092",
                 "password": "dev_pw_test",
             }
         },

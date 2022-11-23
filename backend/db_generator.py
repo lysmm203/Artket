@@ -25,7 +25,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=921,
             height=737,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -41,7 +41,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="poplar panel",
             width=530,
             height=770,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -57,7 +57,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=390,
             height=445,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -73,7 +73,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=1800,
             height=1800,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -89,7 +89,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=1725,
             height=2789,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -105,7 +105,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="wood",
             width=1620,
             height=1190,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -121,7 +121,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=7766,
             height=3493,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -137,7 +137,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=1900,
             height=970,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -153,7 +153,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=920,
             height=735,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -169,7 +169,7 @@ def artwork_db_generator(db_session, artwork_model):
             surface="canvas",
             width=3080,
             height=2076,
-            seller=0,
+            seller=1,
         )
     )
 
@@ -185,8 +185,17 @@ def user_db_generator(db_session, user_model):
     db_session.add(
         user_model(
             email="dev01@artket.com",
-            mobile="+13308575093",
+            mobile="+13308575091",
             username="dev01",
+            password="dev_pw_test",
+        )
+    )
+
+    db_session.add(
+        user_model(
+            email="dev02@artket.com",
+            mobile="+13308575092",
+            username="dev02",
             password="dev_pw_test",
         )
     )

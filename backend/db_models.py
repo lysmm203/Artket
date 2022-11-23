@@ -35,6 +35,16 @@ class ArtworkModel(db.Model):
             "is_sold": self.is_sold,
         }
 
+    def update_is_sold(self):
+        self.is_sold = not self.is_sold
+        db.session.commit()
+
+    def get_seller_uid(self):
+        return self.seller
+
+    def get_min_value(self):
+        return self.min_value
+
     def __repr__(self):
         return f"ArtworkModel -- uid: {self.uid}, name: {self.name}"
 
@@ -48,14 +58,41 @@ class UserModel(db.Model):
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
     ranking = db.Column(db.Integer, nullable=False, default=0)
-    bought = db.Column(db.BLOB, nullable=False, default=bytearray([]))
+    bought = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
     spend = db.Column(db.Integer, nullable=False, default=0)
-    sold = db.Column(db.BLOB, nullable=False, default=bytearray([]))
-    saved = db.Column(db.BLOB, nullable=False, default=bytearray([]))
-    cart = db.Column(db.BLOB, nullable=False, default=bytearray([]))
+    sold = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
+    saved = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
+    cart = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
 
     def get_password(self):
         return self.password
+
+    def update_bought(self, bought_artwork_uid):
+        self.bought = set(self.bought)
+        self.bought.add(bought_artwork_uid)
+
+        self.bought = bytearray(self.bought)
+        db.session.commit()
+
+        self.update_ranking()
+
+    def update_spend(self, spend_amount):
+        self.spend += spend_amount
+        db.session.commit()
+
+        self.update_ranking()
+
+    def update_sold(self, sold_artwork_uid):
+        self.sold = set(self.sold)
+        self.sold.add(sold_artwork_uid)
+
+        self.sold = bytearray(self.sold)
+        db.session.commit()
+
+        self.update_ranking()
+
+    def update_ranking(self):
+        pass
 
     def to_dict(self):
         return {
