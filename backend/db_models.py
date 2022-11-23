@@ -16,7 +16,7 @@ class ArtworkModel(db.Model):
     created_location = db.Column(db.String(200), nullable=False)
     min_value = db.Column(db.Integer, nullable=False)
     seller = db.Column(db.Integer, nullable=False)  # seller's uid in user db
-    is_sold = db.Column(db.Integer, nullable=False)  # 0 and 1 only
+    is_sold = db.Column(db.Integer, nullable=False, default=0)  # 0 and 1 only
 
     def to_dict(self):
         return {
@@ -43,16 +43,35 @@ class ArtworkModel(db.Model):
 
 class UserModel(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), nullable=False)
-    mobile = db.Column(db.String(20), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    mobile = db.Column(db.String(20), nullable=False, unique=True)
+    username = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+    ranking = db.Column(db.Integer, nullable=False, default=0)
+    bought = db.Column(db.BLOB, nullable=False, default=bytearray([]))
+    spend = db.Column(db.Integer, nullable=False, default=0)
+    sold = db.Column(db.BLOB, nullable=False, default=bytearray([]))
+    saved = db.Column(db.BLOB, nullable=False, default=bytearray([]))
+    cart = db.Column(db.BLOB, nullable=False, default=bytearray([]))
+
+    def get_password(self):
+        return self.password
 
     def to_dict(self):
         return {
             "uid": self.uid,
             "email": self.email,
             "mobile": self.mobile,
-            "password": self.password,
+            "username": self.username,
+            "ranking": self.ranking,
+            "bought": list(self.bought),
+            "spend": self.spend,
+            "sold": list(self.sold),
+            "saved": list(self.saved),
+            "cart": list(self.cart),
         }
 
-    # In UserJson: saved, cart
+
+class InvitationCodeModel(db.Model):
+    uid = db.Column(db.Integer, primary_key=True)
+    available_code = db.Column(db.String(20), nullable=False, unique=True)

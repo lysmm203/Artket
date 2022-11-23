@@ -4,8 +4,11 @@ from flask import Flask
 from flask_restful import Api
 
 from backend import db_models as dbm
-from resource.artwork import Artwork
+from resource.artwork_get import GetArtwork
+from resource.artwork_sell import SellArtwork
 from resource.gallery import Gallery
+from resource.user_create import CreateUser
+from resource.user_get import GetUser
 
 
 def init_app():
@@ -21,6 +24,12 @@ def init_app():
     ):
         dbm.db.create_all()
 
+        import backend.db_generator as model
+
+        model.artwork_db_generator(dbm.db.session, dbm.ArtworkModel)
+        model.user_db_generator(dbm.db.session, dbm.UserModel)
+        model.code_db_generator(dbm.db.session, dbm.InvitationCodeModel)
+
     return app
 
 
@@ -28,8 +37,13 @@ def main():
     app = init_app()
 
     api = Api(app)
-    api.add_resource(Artwork, "/artwork")
+    api.add_resource(GetArtwork, "/artwork/get")
+    api.add_resource(SellArtwork, "/artwork/sell")
+
     api.add_resource(Gallery, "/gallery")
+
+    api.add_resource(GetUser, "/user/get")
+    api.add_resource(CreateUser, "/user/create")
 
     app.run(debug=True)
 

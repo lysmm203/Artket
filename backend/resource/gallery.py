@@ -260,7 +260,7 @@ class Gallery(Resource):
                 {...},
             ]
         """
-        query = dbm.ArtworkModel.query.filter(dbm.ArtworkModel.is_sold == 0)
+        query = dbm.ArtworkModel.query.filter_by(is_sold=0)
 
         endpoint_args = self.get_args.parse_args()
         query = get_query_with_filter_args(

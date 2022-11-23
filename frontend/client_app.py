@@ -7,7 +7,9 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route("/img_display")
 def img_display():
-    response = requests.get(BASE + "/artwork", {"uid": 10})
+    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 10}})
+
+    print(response)
     return f"""
         <html>
           <body>
@@ -18,6 +20,35 @@ def img_display():
           </body>
         </html>
         """
+
+
+@app.route("/sell_art")
+@app.route("/")
+def sell_art():
+    response = requests.put(
+        BASE + "/artwork/sell",
+        json={
+            "data": {
+                "name": "Starry Night 01",
+                "genre": "post-impressionism",
+                "medium": "oil painting",
+                "surface": "canvas",
+                "width": 921,
+                "height": 737,
+                "artist": "Vincent Van Gogh",
+                "created_date": "1889",
+                "created_location": "France",
+                "min_value": 100000000,
+                "seller_uid": 1,
+                "seller_password": "dev_pw_test",
+            }
+        },
+    )
+
+    print(response)
+    print(response.json())
+
+    return f"{response.json()}"
 
 
 @app.route("/gallery_display")
@@ -50,6 +81,7 @@ def gallery_display():
     #     "height_filter": "1800-1800",
     # })
 
+    print(response)
     response = response.json()
 
     html_div_str = str()
@@ -70,9 +102,64 @@ def gallery_display():
         """
 
 
+@app.route("/sign_in")
+def signin_user():
+    response = requests.post(
+        BASE + "/user/get",
+        json={
+            "data": {
+                # "uid": 1,
+                # "email": "dev01@artket.com",
+                "mobile": "+13308575093",
+                "password": "dev_pw_test",
+            }
+        },
+    )
+
+    print(response)
+    return f"""
+        <html>
+          <body>
+            <div>
+              <p>{response.json()}</p>
+            </div>
+          </body>
+        </html>
+        """
+
+
+@app.route("/sign_up")
+def signup_user():
+    response = requests.put(
+        BASE + "/user/create",
+        json={
+            "data": {
+                "email": "dev02@artket.com",
+                "mobile": "+133---098(85)09-2",
+                "username": "dev02",
+                "password": "dev_pw_test",
+                "invitation_code": "_}x)Hak98u{%^?5tc$wu",
+            }
+        },
+    )
+
+    print(response)
+    return f"""
+        <html>
+          <body>
+            <div>
+              <p>{response.json()}</p>
+            </div>
+          </body>
+        </html>
+        """
+
+
 def main():
     # http://127.0.0.1:8000/img_display
     # http://127.0.0.1:8000/gallery_display
+    # http://127.0.0.1:8000/sign_in
+    # http://127.0.0.1:8000/sign_up
     app.run(debug=True, port=8000)
 
 
