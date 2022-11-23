@@ -40,6 +40,9 @@ class ArtworkModel(db.Model):
             "is_sold": self.is_sold,
         }
 
+    def get_is_sold(self):
+        return self.is_sold
+
     def get_seller_uid(self):
         return self.seller
 
@@ -71,8 +74,21 @@ class ArtworkModel(db.Model):
             data = json.load(history_database)
             return data[str(self.uid)]
 
-    def update_is_sold(self):
-        self.is_sold = not self.is_sold
+    def update_is_sold(self, sold=False, seller_uid=None):
+        self.is_sold = 1 if sold else 0
+
+        if self.is_sold == 1:
+            self.set_seller(seller_uid=0)
+        else:
+            if not seller_uid:
+                raise ValueError("seller_uid must not be None or 0")
+
+            self.set_seller(seller_uid=seller_uid)
+
+        db.session.commit()
+
+    def set_seller(self, seller_uid):
+        self.seller = seller_uid
         db.session.commit()
 
     def __repr__(self):
@@ -93,6 +109,20 @@ class UserModel(db.Model):
     sold = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
     saved = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
     cart = db.Column(db.BLOB, nullable=False, default=bytearray(set()))
+
+    def to_dict(self):
+        return {
+            "uid": self.uid,
+            "email": self.email,
+            "mobile": self.mobile,
+            "username": self.username,
+            "ranking": self.ranking,
+            "bought": list(self.bought),
+            "spend": self.spend,
+            "sold": list(self.sold),
+            "saved": list(self.saved),
+            "cart": list(self.cart),
+        }
 
     def get_password(self):
         return self.password
@@ -123,20 +153,6 @@ class UserModel(db.Model):
 
     def update_ranking(self):
         pass
-
-    def to_dict(self):
-        return {
-            "uid": self.uid,
-            "email": self.email,
-            "mobile": self.mobile,
-            "username": self.username,
-            "ranking": self.ranking,
-            "bought": list(self.bought),
-            "spend": self.spend,
-            "sold": list(self.sold),
-            "saved": list(self.saved),
-            "cart": list(self.cart),
-        }
 
 
 class InvitationCodeModel(db.Model):

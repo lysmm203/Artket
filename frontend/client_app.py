@@ -5,8 +5,9 @@ app = Flask(__name__)
 BASE = "http://127.0.0.1:5000"
 
 
+# http://127.0.0.1:8000/img_display
 @app.route("/img_display")
-def img_display():  # http://127.0.0.1:8000/img_display
+def img_display():
     response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 1}})
 
     print(response)
@@ -22,8 +23,9 @@ def img_display():  # http://127.0.0.1:8000/img_display
         """
 
 
+# http://127.0.0.1:8000/sell_art
 @app.route("/sell_art")
-def sell_art():  # http://127.0.0.1:8000/sell_art
+def sell_art():
     # TODO: need artpic field
     response = requests.put(
         BASE + "/artwork/sell",
@@ -51,8 +53,9 @@ def sell_art():  # http://127.0.0.1:8000/sell_art
     return f"{response.json()}"
 
 
+# http://127.0.0.1:8000/buy_art
 @app.route("/buy_art")
-def buy_art():  # http://127.0.0.1:8000/buy_art
+def buy_art():
     # TODO: is_sold status is wrong if buy 2 time
     response = requests.post(
         BASE + "/artwork/buy",
@@ -75,6 +78,7 @@ def buy_art():  # http://127.0.0.1:8000/buy_art
     return f"{response.json()}"
 
 
+# http://127.0.0.1:8000/gallery_display
 @app.route("/gallery_display")
 def gallery_display():
     response = requests.get(BASE + "/gallery")
@@ -126,8 +130,9 @@ def gallery_display():
         """
 
 
+# http://127.0.0.1:8000/sign_in
 @app.route("/sign_in")
-def signin_user():  # http://127.0.0.1:8000/sign_in
+def signin_user():
     response = requests.post(
         BASE + "/user/get",
         json={
@@ -152,8 +157,9 @@ def signin_user():  # http://127.0.0.1:8000/sign_in
         """
 
 
+# http://127.0.0.1:8000/sign_up
 @app.route("/sign_up")
-def signup_user():  # http://127.0.0.1:8000/sign_up
+def signup_user():
     response = requests.put(
         BASE + "/user/create",
         json={

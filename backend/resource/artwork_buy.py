@@ -105,6 +105,11 @@ def validate_data_for_buy_artwork(data_dict):
         error_msg = f'No artwork with uid {data_dict["artwork_uid"]}'
         return False, {"error_msg": error_msg}, Hsta.NOT_FOUND
 
+    if artwork.get_is_sold() == 1:
+        error_msg = f'Artwork with uid {data_dict["artwork_uid"]} had been ' \
+                    f'sold. Can not buy sold artwork'
+        return False, {"error_msg": error_msg}, Hsta.UNAUTHORIZED
+
     if data_dict["paid_amount"] < artwork.get_min_value():
         error_msg = "Paid amount is smaller than artwork min value"
         return False, {"error_msg": error_msg}, Hsta.UNAUTHORIZED
@@ -129,7 +134,6 @@ def buy_artwork(data_dict):
     artwork = dbm.ArtworkModel.query.filter_by(
         uid=data_dict["artwork_uid"]
     ).first()
-    artwork.update_is_sold()
 
     buyer = dbm.UserModel.query.filter_by(uid=data_dict["buyer_uid"]).first()
     buyer.update_bought(data_dict["artwork_uid"])
@@ -139,6 +143,8 @@ def buy_artwork(data_dict):
         uid=artwork.get_seller_uid()
     ).first()
     seller.update_sold(data_dict["artwork_uid"])
+
+    artwork.update_is_sold(sold=True)
 
     # TODO: put artpic and history into the artwork model
 
