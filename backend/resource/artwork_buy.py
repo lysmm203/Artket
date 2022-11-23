@@ -21,7 +21,8 @@ def validate_buy_artwork_query(data_dict):
         "All the following keys must be provided and can not be None or "
         'empty in "data" key in json kwargs of the query.\n'
         "- (as string type): buyer_password, expire_date\n"
-        "- (as integer type): buyer_uid, artwork_uid, card_number, cvv_code\n"
+        "- (as integer type): buyer_uid, artwork_uid, card_number, cvv_code"
+        ", paid_amount\n"
     )
     if not data_dict.keys() >= required_keys_type.keys():
         return (
@@ -33,7 +34,12 @@ def validate_buy_artwork_query(data_dict):
     if not all(data_dict.values()):
         return (
             False,
-            {"error_msg": f"One or more value is empty.\n{error_help_msg}"},
+            {
+                "error_msg": (
+                    "One or more value is empty, 0, or None"
+                    f".\n{error_help_msg}"
+                )
+            },
             Hsta.BAD_REQUEST,
         )
 
@@ -46,7 +52,9 @@ def validate_buy_artwork_query(data_dict):
         return (
             False,
             {
-                "error_msg": f"One or more value has wrong type.\n{error_help_msg}"
+                "error_msg": (
+                    f"One or more value has wrong type.\n{error_help_msg}"
+                )
             },
             Hsta.BAD_REQUEST,
         )
@@ -108,7 +116,7 @@ def validate_data_for_buy_artwork(data_dict):
     if artwork.get_is_sold() == 1:
         error_msg = (
             f'Artwork with uid {data_dict["artwork_uid"]} had been '
-            f"sold. Can not buy sold artwork"
+            "sold. Can not buy already sold artwork"
         )
         return False, {"error_msg": error_msg}, Hsta.UNAUTHORIZED
 
