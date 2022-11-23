@@ -1,7 +1,6 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
 
-import backend.utils as utils
 from backend import db_models as dbm
 
 
@@ -143,9 +142,7 @@ def get_artworks_by_query(curr_query):
         item = dict()
 
         item["info"] = artworks[i].to_dict()
-        item["artpic"] = utils.get_bytestr_artpic(
-            artwork_uid=item["info"]["uid"]
-        )
+        item["artpic"] = artworks[i].get_bytestr_artpic()
 
         artworks[i] = item
 

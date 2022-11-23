@@ -5,9 +5,10 @@ app = Flask(__name__)
 BASE = "http://127.0.0.1:5000"
 
 
+# http://127.0.0.1:8000/img_display
 @app.route("/img_display")
 def img_display():
-    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 10}})
+    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 1}})
 
     print(response)
     return f"""
@@ -22,9 +23,10 @@ def img_display():
         """
 
 
+# http://127.0.0.1:8000/sell_art
 @app.route("/sell_art")
-@app.route("/")
 def sell_art():
+    # TODO: need artpic field
     response = requests.put(
         BASE + "/artwork/sell",
         json={
@@ -51,6 +53,31 @@ def sell_art():
     return f"{response.json()}"
 
 
+# http://127.0.0.1:8000/buy_art
+@app.route("/buy_art")
+def buy_art():
+    response = requests.post(
+        BASE + "/artwork/buy",
+        json={
+            "data": {
+                "buyer_uid": 2,
+                "buyer_password": "dev_pw_test",
+                "artwork_uid": 1,
+                "card_number": 378282246310005,
+                "expire_date": "11/25",
+                "cvv_code": 498,
+                "paid_amount": 100000000,
+            }
+        },
+    )
+
+    print(response)
+    print(response.json())
+
+    return f"{response.json()}"
+
+
+# http://127.0.0.1:8000/gallery_display
 @app.route("/gallery_display")
 def gallery_display():
     response = requests.get(BASE + "/gallery")
@@ -102,15 +129,16 @@ def gallery_display():
         """
 
 
+# http://127.0.0.1:8000/sign_in
 @app.route("/sign_in")
 def signin_user():
     response = requests.post(
         BASE + "/user/get",
         json={
             "data": {
-                # "uid": 1,
-                # "email": "dev01@artket.com",
-                "mobile": "+13308575093",
+                "uid": 2,
+                # "email": "dev02@artket.com",
+                # "mobile": "+13308575092",
                 "password": "dev_pw_test",
             }
         },
@@ -128,17 +156,18 @@ def signin_user():
         """
 
 
+# http://127.0.0.1:8000/sign_up
 @app.route("/sign_up")
 def signup_user():
     response = requests.put(
         BASE + "/user/create",
         json={
             "data": {
-                "email": "dev02@artket.com",
-                "mobile": "+133---098(85)09-2",
-                "username": "dev02",
+                "email": "dev03@artket.com",
+                "mobile": "+13308575093",
+                "username": "dev03",
                 "password": "dev_pw_test",
-                "invitation_code": "_}x)Hak98u{%^?5tc$wu",
+                "invitation_code": "c:L!;HV'QyXa]|=kr;z~",
             }
         },
     )
@@ -157,6 +186,8 @@ def signup_user():
 
 def main():
     # http://127.0.0.1:8000/img_display
+    # http://127.0.0.1:8000/sell_art
+    # http://127.0.0.1:8000/buy_art
     # http://127.0.0.1:8000/gallery_display
     # http://127.0.0.1:8000/sign_in
     # http://127.0.0.1:8000/sign_up
