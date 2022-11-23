@@ -3,7 +3,6 @@ from http import HTTPStatus as Hsta
 from flask_restful import Resource, reqparse
 
 import backend.db_models as dbm
-import backend.utils as utils
 
 
 def validate_get_artwork_query(data_dict):
@@ -59,9 +58,9 @@ class GetArtwork(Resource):
 
         response = dict()
         response["info"] = artwork_with_uid.to_dict()
-        response["artpic"] = utils.get_bytestr_artpic(artwork_uid=uid)
+        response["artpic"] = artwork_with_uid.get_bytestr_artpic()
 
-        artwork_history = utils.get_artwork_history(artwork_uid=uid)
+        artwork_history = artwork_with_uid.get_artwork_history()
         for field in artwork_history:
             response["info"][field] = artwork_history[field]
 

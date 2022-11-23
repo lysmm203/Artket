@@ -38,10 +38,10 @@ def validate_buy_artwork_query(data_dict):
         )
 
     if not all(
-            [
-                type(data_dict[_key]) == required_keys_type[_key]
-                for _key in data_dict
-            ]
+        [
+            type(data_dict[_key]) == required_keys_type[_key]
+            for _key in data_dict
+        ]
     ):
         return (
             False,
@@ -110,10 +110,12 @@ def validate_data_for_buy_artwork(data_dict):
         return False, {"error_msg": error_msg}, Hsta.UNAUTHORIZED
 
     # validate payment card
-    if not validate_payment_card(card_number=data_dict["card_number"],
-                                 expire_date=data_dict["expire_date"],
-                                 cvv_code=data_dict["cvv_code"]):
-        error_msg = f'Not a valid debit card or credit card'
+    if not validate_payment_card(
+        card_number=data_dict["card_number"],
+        expire_date=data_dict["expire_date"],
+        cvv_code=data_dict["cvv_code"],
+    ):
+        error_msg = f"Not a valid debit card or credit card"
         return False, {"error_msg": error_msg}, Hsta.PAYMENT_REQUIRED
 
     return True, {"error_msg": ""}, Hsta.OK

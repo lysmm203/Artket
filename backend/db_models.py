@@ -1,4 +1,9 @@
+import json
+
 from flask_sqlalchemy import SQLAlchemy
+
+ARTPIC_LOC = "instance/artpic/"
+ART_HISTORY_LOC = "instance/history.json"
 
 db = SQLAlchemy()
 
@@ -35,15 +40,40 @@ class ArtworkModel(db.Model):
             "is_sold": self.is_sold,
         }
 
-    def update_is_sold(self):
-        self.is_sold = not self.is_sold
-        db.session.commit()
-
     def get_seller_uid(self):
         return self.seller
 
     def get_min_value(self):
         return self.min_value
+
+    def get_bytestr_artpic(self):
+        """
+        :return: base64 str repr the picture of the artwork
+        """
+        with open(f"{ARTPIC_LOC}{self.uid}_base64.txt", "r") as infile:
+            return infile.read()
+
+    def get_artwork_history(self):
+        """
+        :return: dict repr provenance, price and sale history of the artwork
+            {
+                "price_history": <list of int repr price history>,
+                "sale_history": <list of dict (buyer, price)> [
+                  {
+                    "buyer": <str repr buyer name>,
+                    "price": <int repr price the buyer pay for the art>
+                  },
+                ],
+                "provenance": <str repr the literature of the art>
+            }
+        """
+        with open(ART_HISTORY_LOC) as history_database:
+            data = json.load(history_database)
+            return data[str(self.uid)]
+
+    def update_is_sold(self):
+        self.is_sold = not self.is_sold
+        db.session.commit()
 
     def __repr__(self):
         return f"ArtworkModel -- uid: {self.uid}, name: {self.name}"

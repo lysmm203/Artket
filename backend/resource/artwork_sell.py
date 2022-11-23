@@ -37,17 +37,18 @@ def validate_sell_artwork_query(data_dict):
         )
 
     if not all(data_dict.values()):
+        error_msg = "One or more value is empty, 0, or None."
         return (
             False,
-            {"error_msg": f"One or more value is empty.\n{error_help_msg}"},
+            {"error_msg": f"{error_msg}\n{error_help_msg}"},
             Hsta.BAD_REQUEST,
         )
 
     if not all(
-            [
-                type(data_dict[_key]) == required_keys_type[_key]
-                for _key in data_dict
-            ]
+        [
+            type(data_dict[_key]) == required_keys_type[_key]
+            for _key in data_dict
+        ]
     ):
         return (
             False,
