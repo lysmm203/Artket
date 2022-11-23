@@ -15,6 +15,8 @@ class ArtworkModel(db.Model):
     created_date = db.Column(db.String(10), nullable=False)
     created_location = db.Column(db.String(200), nullable=False)
     min_value = db.Column(db.Integer, nullable=False)
+    seller = db.Column(db.Integer, nullable=False)  # seller's uid in user db
+    is_sold = db.Column(db.Integer, nullable=False)  # 0 and 1 only
 
     def to_dict(self):
         return {
@@ -29,6 +31,8 @@ class ArtworkModel(db.Model):
             "created_date": self.created_date,
             "created_location": self.created_location,
             "min_value": self.min_value,
+            "seller": self.seller,
+            "is_sold": self.is_sold,
         }
 
     def __repr__(self):
