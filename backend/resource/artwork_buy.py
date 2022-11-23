@@ -106,8 +106,10 @@ def validate_data_for_buy_artwork(data_dict):
         return False, {"error_msg": error_msg}, Hsta.NOT_FOUND
 
     if artwork.get_is_sold() == 1:
-        error_msg = f'Artwork with uid {data_dict["artwork_uid"]} had been ' \
-                    f'sold. Can not buy sold artwork'
+        error_msg = (
+            f'Artwork with uid {data_dict["artwork_uid"]} had been '
+            f"sold. Can not buy sold artwork"
+        )
         return False, {"error_msg": error_msg}, Hsta.UNAUTHORIZED
 
     if data_dict["paid_amount"] < artwork.get_min_value():
@@ -145,10 +147,17 @@ def buy_artwork(data_dict):
     seller.update_sold(data_dict["artwork_uid"])
 
     artwork.update_is_sold(sold=True)
+    artwork.update_history(
+        buyer_name=buyer.get_username(),
+        paid_amount=data_dict["paid_amount"],
+    )
 
-    # TODO: put artpic and history into the artwork model
-
-    return {"": ""}
+    return {
+        "msg": (
+            "Successfully buy artwork "
+            f'(artwork_uid: {data_dict["artwork_uid"]})'
+        )
+    }, Hsta.OK
 
 
 class BuyArtwork(Resource):

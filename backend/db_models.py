@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -70,7 +71,7 @@ class ArtworkModel(db.Model):
                 "provenance": <str repr the literature of the art>
             }
         """
-        with open(ART_HISTORY_LOC) as history_database:
+        with open(ART_HISTORY_LOC, "r") as history_database:
             data = json.load(history_database)
             return data[str(self.uid)]
 
@@ -86,6 +87,31 @@ class ArtworkModel(db.Model):
             self.set_seller(seller_uid=seller_uid)
 
         db.session.commit()
+
+    def update_history(self, buyer_name, paid_amount):
+        if not all(
+            [
+                isinstance(buyer_name, str),
+                isinstance(paid_amount, int),
+            ]
+        ):
+            raise ValueError("buyer_name must be str, paid_amount must be int")
+
+        with open(ART_HISTORY_LOC, "r") as history_database:
+            data = json.load(history_database)
+
+        data[str(self.uid)]["price_history"].insert(0, paid_amount)
+        data[str(self.uid)]["sale_history"].insert(
+            0,
+            {
+                "buyer": buyer_name,
+                "price": paid_amount,
+                "sold_date": datetime.today().strftime("%m-%d-%y"),
+            },
+        )
+
+        with open(ART_HISTORY_LOC, "w") as history_database:
+            json.dump(data, history_database)
 
     def set_seller(self, seller_uid):
         self.seller = seller_uid
@@ -123,6 +149,9 @@ class UserModel(db.Model):
             "saved": list(self.saved),
             "cart": list(self.cart),
         }
+
+    def get_username(self):
+        return self.username
 
     def get_password(self):
         return self.password

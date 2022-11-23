@@ -56,7 +56,6 @@ def sell_art():
 # http://127.0.0.1:8000/buy_art
 @app.route("/buy_art")
 def buy_art():
-    # TODO: is_sold status is wrong if buy 2 time
     response = requests.post(
         BASE + "/artwork/buy",
         json={
