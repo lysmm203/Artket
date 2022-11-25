@@ -1,5 +1,5 @@
 import requests
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
 
 from frontend.utils import convert_artpic_to_base64str
 
@@ -8,6 +8,10 @@ BASE = "http://127.0.0.1:5000"
 
 
 # http://127.0.0.1:8000/img_display
+@app.route("/home")
+def home_display():
+    return render_template("homepage.html")
+
 @app.route("/img_display")
 def img_display():
     response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 1}})
@@ -134,13 +138,23 @@ def gallery_display():
 
 
 # http://127.0.0.1:8000/sign_in
-@app.route("/sign_in")
+@app.route("/sign_in", methods=['GET', 'POST'])
 def signin_user():
+    if request.method == "POST":
+        email_or_phone = request.form.get('email-or-phone')
+        password = request.form.get('password')
+
+########## Issue: Redireects user to homepage regardless of whether credentials are correct or not ###########
+
+        return redirect(url_for('home_display'))
+
+
+    return render_template("login.html")
+
     response = requests.post(
         BASE + "/user/get",
         json={
             "data": {
-                "uid": 2,
                 # "email": "dev02@artket.com",
                 # "mobile": "+13308575092",
                 "password": "dev_pw_test",
@@ -161,20 +175,33 @@ def signin_user():
 
 
 # http://127.0.0.1:8000/sign_up
-@app.route("/sign_up")
+@app.route("/sign_up", methods=['GET', 'POST'])
 def signup_user():
-    response = requests.put(
-        BASE + "/user/create",
-        json={
-            "data": {
-                "email": "dev03@artket.com",
-                "mobile": "+13308575093",
-                "username": "dev03",
-                "password": "dev_pw_test",
-                "invitation_code": "c:L!;HV'QyXa]|=kr;z~",
-            }
-        },
-    )
+    if request.method == "POST":
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm-password')
+        invitation_code = request.form.get('invitation-code')
+        phone_number = request.form.get('phone-number')
+
+        response = requests.put(
+            BASE + "/user/create",
+            json={
+                "data": {
+                    "email": email,
+                    "mobile": phone_number,
+                    "username": name,
+                    "password": password,
+                    "invitation_code": invitation_code,
+                }
+            },
+        )
+
+        return render_template("login.html")
+
+
+    return render_template("register.html")
 
     print(response)
     return f"""
