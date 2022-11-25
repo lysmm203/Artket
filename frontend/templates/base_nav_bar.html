@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Home </title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="child-container header-text">
+            <div class="logo">
+                Artket
+            </div>
+            <div class="filter">
+                Artworks
+            </div>
+            <div class="filter">
+                Artists
+            </div>
+            <div class="filter">
+                Price
+            </div>
+
+        </div>
+
+        <div class="child-container header-bookmark">
+
+            <div class="bookmark">
+                <a href="../saved_page/index.html">
+                    <img class = "bookmark-img" src="/static/images/bookmark.png">
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>
