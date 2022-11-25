@@ -8,6 +8,7 @@ from backend.common_vars import ART_MEDIUM
 
 def validate_sell_artwork_query(data_dict):
     required_keys_type = {
+        "artpic": str,
         "name": str,
         "genre": str,
         "medium": str,
@@ -28,6 +29,7 @@ def validate_sell_artwork_query(data_dict):
         "- (as string type): name, genre, medium, surface, artist, "
         "created_date, created_location, seller_password\n"
         "- (as integer type): width, height, min_value, seller_uid\n"
+        "- (as byte string type): artpic\n"
     )
     if not data_dict.keys() >= required_keys_type.keys():
         return (
@@ -53,7 +55,9 @@ def validate_sell_artwork_query(data_dict):
         return (
             False,
             {
-                "error_msg": f"One or more value has wrong type.\n{error_help_msg}"
+                "error_msg": (
+                    f"One or more value has wrong type.\n{error_help_msg}"
+                )
             },
             Hsta.BAD_REQUEST,
         )
@@ -125,6 +129,7 @@ def create_artwork_for_sell(data_dict):
     dbm.db.session.add(new_artwork)
     dbm.db.session.commit()
 
+    new_artwork.set_bytestr_artpic(data_dict["artpic"])
     return new_artwork.to_dict(), 200
 
 

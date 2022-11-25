@@ -117,6 +117,10 @@ class ArtworkModel(db.Model):
         self.seller = seller_uid
         db.session.commit()
 
+    def set_bytestr_artpic(self, bytestr_artpic):
+        with open(f"{ARTPIC_LOC}{self.uid}_base64.txt", "w") as outfile:
+            outfile.write(bytestr_artpic)
+
     def __repr__(self):
         return f"ArtworkModel -- uid: {self.uid}, name: {self.name}"
 
