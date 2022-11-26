@@ -1,5 +1,6 @@
 body{
     margin:0;
+    font-family: 'Montserrat', sans-serif;
 }
 div{
     display:flex;
@@ -8,33 +9,45 @@ div{
     margin: 0;
 }
 
+form div {
+    display: block;
+    max-width: 200px;
+    margin-top: 20px;
+}
+
+label{
+    display: block;
+}
+
+
 .child-container{
     width: 100%;
 }
 
-.home-image {
+.img {
+    object-fit: cover;
+    height:100vh;
+    width: 100%;
+
+}
+
+.home-img {
     object-fit: cover;
     height: 85vh;
     width:auto;
     max-width: 100%;
- 
 }
 
-.button {
-    font-size:15px;
-    font-family:Arial;
-    width:140px;
-    height:50px;
-    border-width:1px;
-    color: black;
-    border-color:#FFEFD6;
-    font-weight:bold;
-    border-top-left-radius:28px;
-    border-top-right-radius:28px;
-    border-bottom-left-radius:28px;
-    border-bottom-right-radius:28px;
-    background:#FFEFD6;
-    border: 0;
+.login-img {
+    object-fit: cover;
+    height:100vh;
+    width: 100%;
+
+}
+
+.form-button {
+    margin: 0 30px;
+    display: flex;
   }
   
   .button:hover {

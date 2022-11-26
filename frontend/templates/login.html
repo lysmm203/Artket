@@ -2,20 +2,41 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
+<div class="child-container">
+    <img class = "login-img" src="/static/images/monalisa.jpeg">
+</div>
 
-<form method="POST">
-    <div>
-        <label for="email-or-phone">Email or Phone Number: </label>
-        <input type="text" id="email-or-phone" name="email-or-phone">
-    </div>
-    <div>
-        <label for="password">Password: </label>
-        <input type="text" id="password" name="password">
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
+<div class="child-container">
 
-</form>
+    <form method="POST">
+        <div>
+            <label for="email-or-phone">Email or Phone Number: </label>
+            <input type="text" id="email-or-phone" name="email-or-phone">
+        </div>
+        <div>
+            <label for="password">Password: </label>
+            <input type="text" id="password" name="password">
+        </div>
+        <div style="display: flex;">
+            <button type="submit" class="form-button" name="submit-button" value="login">Login</button>
+            <button type="submit" class="form-button" name="submit-button" value="register" onclick="{{url_for('signup_user')}}">Register</button>
+        </div>
+        <div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              Error Message: {{ message }}
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        </div>
+    </form>
+
+
+</div>
+
+
+
+
 
 {% endblock %}

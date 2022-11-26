@@ -185,6 +185,9 @@ class UserModel(db.Model):
         self.update_ranking()
 
     def update_ranking(self):
+        # There are 5 ranks. To rank up, you need to buy or sell 10 artworks.
+        # e.g. User starts at rank 1. To rank up to Rank 2, buy or sell 10 artworks. To rank up to Rank 3,
+        # buy or sell 10 more
         pass
 
 

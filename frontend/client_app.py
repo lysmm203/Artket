@@ -1,9 +1,10 @@
 import requests
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 from frontend.utils import convert_artpic_to_base64str
 
 app = Flask(__name__)
+app.secret_key = "client_app"
 BASE = "http://127.0.0.1:5000"
 
 
@@ -126,41 +127,41 @@ def gallery_display():
             f'<img src="data:image/png;base64,{item["artpic"]}"/>'
         )
 
-    return f"""
-        <html>
-          <body>
-            <div>
-              {html_div_str}
-            </div>
-          </body>
-        </html>
-        """
+    return render_template("gallery.html")
 
 
 # http://127.0.0.1:8000/sign_in
-@app.route("/sign_in", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def signin_user():
     if request.method == "POST":
         email_or_phone = request.form.get('email-or-phone')
         password = request.form.get('password')
 
-########## Issue: Redireects user to homepage regardless of whether credentials are correct or not ###########
+        response = requests.post(
+            BASE + "/user/get",
+            json={
+                "data": {
+                    "email": email_or_phone,
+                    "mobile": email_or_phone,
+                    "password": password,
+                }
+            },
+        )
 
-        return redirect(url_for('home_display'))
+        if request.form['submit-button'] == 'register':
+            return redirect(url_for('signup_user'))
+        elif request.form['submit-button'] == 'login':
+            if response.status_code == 200:
+                return redirect(url_for('home_display'))
+            else:
+                error_message = response.json()['error_msg']
+                flash(error_message)
+
 
 
     return render_template("login.html")
 
-    response = requests.post(
-        BASE + "/user/get",
-        json={
-            "data": {
-                # "email": "dev02@artket.com",
-                # "mobile": "+13308575092",
-                "password": "dev_pw_test",
-            }
-        },
-    )
+
 
     print(response)
     return f"""
@@ -198,7 +199,11 @@ def signup_user():
             },
         )
 
-        return render_template("login.html")
+        print(
+            f"Name: {name} Email: {email} Password: {password} Invitation code: {invitation_code} Phone Number: {phone_number}")
+
+        return redirect(url_for('signin_user'))
+
 
 
     return render_template("register.html")
