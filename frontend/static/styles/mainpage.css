@@ -1,12 +1,23 @@
 body{
     margin:0;
     font-family: 'Montserrat', sans-serif;
+    background-color: #F5F5DC;
 }
 div{
     display:flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+hr{
+    width: 100%;
+    display: block;
 }
 
 form div {
@@ -22,6 +33,8 @@ label{
 
 .child-container{
     width: 100%;
+    max-width: 100%;
+
 }
 
 .img {
@@ -71,11 +84,17 @@ label{
     flex: 2;
     font-size: 3em;
     font-weight: bold;
+    margin: 50px;
 }
 
 .filter{    
     flex: 1;
     font-size: 1.5em;
+    border: none;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+    width: 130px;
+    height: 100%;
 }
 
 .bookmark{
@@ -100,6 +119,50 @@ div.form-entry{
     padding: 3vh;
 }
 
-/* form.form-entry{
-    display: table;
-} */
+.gallery-img {
+    width: 30vw;
+    height: auto;
+    margin-top: 30px;
+    display: block;
+}
+
+.home-btn{
+    text-align: center;
+    position: absolute;
+}
+
+
+.dropdown{
+    position:relative;
+    display:block;
+    align-items: stretch;
+    height: 15vh;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #F8C4B4;
+    text-align: center;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    /*border: 1px solid black;*/
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+.dropdown-flex:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown-flex:hover .dropbtn {background-color: #3e8e41;}

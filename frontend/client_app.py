@@ -91,19 +91,16 @@ def buy_art():
 def gallery_display():
     response = requests.get(BASE + "/gallery")
     # response = requests.get(BASE + "/gallery", {
-    #     # "artwork_num": 5,
-    #     # "artist_filter": [
-    #     #     "Vincent Van Gogh",
-    #     #     "Gustav Klimt",
-    #     # ],
-    #     # "medium_filter": [
-    #     #     "gold leaf",
-    #     #     "graphite",
-    #     # ],
-    #     # "created_date_filter": "1485-1565",
-    #     # "min_value_filter": "240000-25000000",
-    #     # "width_filter": "390-920",
-    #     "height_filter": "445-737",
+    #     "artwork_num": 5,
+    #     "artist_filter": [
+    #         "Vincent Van Gogh",
+    #     ],
+    #     "medium_filter": [
+    #         "gold leaf",
+    #         "graphite",
+    #     ],
+    #     "created_date_filter": "1485-1565",
+    #     "min_value_filter": "240000-25000000",
     #     "order_by": "artist",
     #     "order_decrease": "True",
     # })
@@ -127,8 +124,7 @@ def gallery_display():
             f'<img src="data:image/png;base64,{item["artpic"]}"/>'
         )
 
-    return render_template("gallery.html")
-
+    return render_template("gallery.html", value=response)
 
 # http://127.0.0.1:8000/sign_in
 @app.route("/", methods=['GET', 'POST'])

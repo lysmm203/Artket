@@ -14,16 +14,55 @@
     <div class="header">
         <div class="child-container header-text">
             <div class="logo">
-                Artket
+                <a href="{{url_for('home_display')}}">Artket</a>
             </div>
-            <div class="filter">
-                Medium
+
+            <div class="dropdown">
+                <button class="filter">
+                    Medium
+                </button>
+
+                <div class="dropdown-content">
+                    <a>Tempera</a>
+                    <a>Oil Painting</a>
+                    <a>Acrylic Painting</a>
+                    <a>Watercolors</a>
+                    <a>Charcoal</a>
+                    <a>Pastels</a>
+                    <a>Chalk</a>
+                    <a>Graphite</a>
+                </div>
             </div>
-            <div class="filter">
-                Artists
+
+            <div class="dropdown">
+                <button class="filter">
+                    Artists
+                </button>
+                <div class="dropdown-content">
+                    <a>Sandro Botticelli</a>
+                    <a>Leonardo Da Vinci</a>
+                    <a>Francisco Goya</a>
+                    <a>Vincent Van Gogh</a>
+                </div>
             </div>
-            <div class="filter">
-                Price
+
+            <div class="dropdown">
+                <button class="filter">
+                    Price
+                </button>
+                <div class="dropdown-content">
+                    <div style="display: flex; ">
+
+                        <div style="background-color: #F8C4B4;">
+                            <label for="min-value" >Minimum Price: </label>
+                            <input type="number" id="min-value" name="min-value">
+
+                            <label for="max-value">Maximum Price: </label>
+                            <input type="number" id="max-value" name="max-value">
+                            <button type="submit" style="margin: 15px;">Submit</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

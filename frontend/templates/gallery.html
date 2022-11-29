@@ -1,0 +1,18 @@
+{% extends 'base_nav_bar.html' %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+
+<div style="display: block;">
+{% for item in value %}
+    <div class="gallery-img">
+        <img class="gallery-img" src="data:image/png;base64,{{item['artpic']}}"/>
+        <strong><label style="font-size: 1.5em;">{{item["info"]["name"]}}</label></strong>
+        <label>{{item["info"]["artist"]}}</label>
+    </div>
+{% endfor %}
+</div>
+
+
+
+
+{% endblock %}
