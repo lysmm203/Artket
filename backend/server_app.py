@@ -10,6 +10,7 @@ from resource.artwork_buy import BuyArtwork
 from resource.gallery import Gallery
 from resource.user_create import CreateUser
 from resource.user_get import GetUser
+from resource.user_saved import UserSaved
 
 
 def init_app():
@@ -46,6 +47,7 @@ def main():
 
     api.add_resource(GetUser, "/user/get")
     api.add_resource(CreateUser, "/user/create")
+    api.add_resource(UserSaved, "/user/saved")
 
     app.run(debug=True)
 
