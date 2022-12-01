@@ -1,18 +1,28 @@
 import requests
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, flash, g, session
+
 
 from frontend.utils import convert_artpic_to_base64str
 
 app = Flask(__name__)
+app.secret_key = "client_app"
 BASE = "http://127.0.0.1:5000"
 
 
 # http://127.0.0.1:8000/img_display
-@app.route("/img_display")
-def img_display():
-    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 1}})
+@app.route("/home")
+def home_display():
+    return render_template("homepage.html")
 
-    print(response)
+@app.route("/img_display/")
+def img_display():
+    img_id = request.args.get('values')
+    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": int(img_id)}})
+    response = response.json()
+
+    return render_template("information.html", value=response)
+
+
     return f"""
         <html>
           <body>
@@ -51,9 +61,6 @@ def sell_art():
         },
     )
 
-    print(response)
-    print(response.json())
-
     return f"{response.json()}"
 
 
@@ -85,20 +92,18 @@ def buy_art():
 @app.route("/gallery_display")
 def gallery_display():
     response = requests.get(BASE + "/gallery")
+
     # response = requests.get(BASE + "/gallery", {
-    #     # "artwork_num": 5,
-    #     # "artist_filter": [
-    #     #     "Vincent Van Gogh",
-    #     #     "Gustav Klimt",
-    #     # ],
-    #     # "medium_filter": [
-    #     #     "gold leaf",
-    #     #     "graphite",
-    #     # ],
-    #     # "created_date_filter": "1485-1565",
-    #     # "min_value_filter": "240000-25000000",
-    #     # "width_filter": "390-920",
-    #     "height_filter": "445-737",
+    #     "artwork_num": 5,
+    #     "artist_filter": [
+    #         "Vincent Van Gogh",
+    #     ],
+    #     "medium_filter": [
+    #         "gold leaf",
+    #         "graphite",
+    #     ],
+    #     "created_date_filter": "1485-1565",
+    #     "min_value_filter": "240000-25000000",
     #     "order_by": "artist",
     #     "order_decrease": "True",
     # })
@@ -114,79 +119,72 @@ def gallery_display():
 
     print(response)
     response = response.json()
+    abc = 1
 
-    html_div_str = str()
-    for item in response:
-        html_div_str += (
-            f'<p>{item["info"]}</p> '
-            f'<img src="data:image/png;base64,{item["artpic"]}"/>'
-        )
 
-    return f"""
-        <html>
-          <body>
-            <div>
-              {html_div_str}
-            </div>
-          </body>
-        </html>
-        """
-
+    return render_template("gallery.html", value=response)
 
 # http://127.0.0.1:8000/sign_in
-@app.route("/sign_in")
+@app.route("/", methods=['GET', 'POST'])
 def signin_user():
-    response = requests.post(
-        BASE + "/user/get",
-        json={
-            "data": {
-                "uid": 2,
-                # "email": "dev02@artket.com",
-                # "mobile": "+13308575092",
-                "password": "dev_pw_test",
-            }
-        },
-    )
+    if request.method == "POST":
+        email_or_phone = request.form.get('email-or-phone')
+        password = request.form.get('password')
 
-    print(response)
-    return f"""
-        <html>
-          <body>
-            <div>
-              <p>{response.json()}</p>
-            </div>
-          </body>
-        </html>
-        """
+        response = requests.post(
+            BASE + "/user/get",
+            json={
+                "data": {
+                    # If @ is in string, it's email. Otherwise, it's phone
+                    "email": email_or_phone,
+                    "mobile": email_or_phone,
+                    "password": password,
+                }
+            },
+        )
 
+        if request.form['submit-button'] == 'register':
+            return redirect(url_for('signup_user'))
+        elif request.form['submit-button'] == 'login':
+            if response.status_code == 200:
+                return redirect(url_for('home_display'))
+            else:
+                error_message = response.json()['error_msg']
+                flash(error_message, 'error')
+
+
+    return render_template("login.html")
 
 # http://127.0.0.1:8000/sign_up
-@app.route("/sign_up")
+@app.route("/sign_up", methods=['GET', 'POST'])
 def signup_user():
-    response = requests.put(
-        BASE + "/user/create",
-        json={
-            "data": {
-                "email": "dev03@artket.com",
-                "mobile": "+13308575093",
-                "username": "dev03",
-                "password": "dev_pw_test",
-                "invitation_code": "c:L!;HV'QyXa]|=kr;z~",
-            }
-        },
-    )
+    if request.method == "POST":
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm-password')
+        invitation_code = request.form.get('invitation-code')
+        phone_number = request.form.get('phone-number')
 
-    print(response)
-    return f"""
-        <html>
-          <body>
-            <div>
-              <p>{response.json()}</p>
-            </div>
-          </body>
-        </html>
-        """
+        response = requests.put(
+            BASE + "/user/create",
+            json={
+                "data": {
+                    "email": email,
+                    "mobile": phone_number,
+                    "username": name,
+                    "password": password,
+                    "invitation_code": invitation_code,
+                }
+            },
+        )
 
+        print(
+            f"Name: {name} Email: {email} Password: {password} Invitation code: {invitation_code} Phone Number: {phone_number}")
+
+        return redirect(url_for('signin_user'))
+
+    return render_template("register.html")
 
 # http://127.0.0.1:8000/user_saved
 @app.route("/user_saved")

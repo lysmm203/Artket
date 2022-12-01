@@ -1,0 +1,27 @@
+{% extends 'base_nav_bar.html' %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+
+<div class="top-margin" style="flex-flow:wrap;">
+    <div class="page-indicator">
+        Gallery
+    </div>
+
+    <div style="display: block;">
+    {% for item in value %}
+            <div class="gallery-img">
+                <a href="{{url_for('img_display', values=item['info']['uid'])}}">
+                    <img class="gallery-img" src="data:image/png;base64,{{item['artpic']}}"/>
+                </a>
+                <strong><label style="font-size: 1.5em;">{{item["info"]["name"]}}</label></strong>
+                <label>{{item["info"]["artist"]}}</label>
+            </div>
+
+    {% endfor %}
+    </div>
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,219 @@
+body{
+    margin:0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
+}
+div{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.none-nav-button {
+  background-color: #F5F5DC;
+  border: none;
+  color: black;
+  padding: 15px 60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+form div {
+    display: block;
+    max-width: 200px;
+    margin-top: 20px;
+}
+
+label{
+    display: block;
+}
+
+.page-indicator{
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin: 30px;
+    font-weight: bold;
+
+}
+
+.child-container{
+    width: 100%;
+    max-width: 100%;
+    height: 85vh;
+
+}
+
+.img {
+    object-fit: cover;
+    height:100vh;
+    width: 100%;
+
+}
+
+.home-img {
+    object-fit: cover;
+    height: 85vh;
+    width:auto;
+    max-width: 100%;
+}
+
+.login-img {
+    object-fit: cover;
+    height:100vh;
+    width: 100%;
+
+}
+
+.form-button {
+    margin: 0 30px;
+    display: flex;
+  }
+  
+  .button:hover {
+    background: gray;
+  }
+
+.header {
+    background-color: #F5F5DC;
+    height: 15vh;
+    position: fixed;
+    width: 100vw;
+}
+
+.child-container.header-text{
+    justify-content: flex-start;
+}
+
+.child-container.header-bookmark{
+    justify-content: flex-end;
+}
+
+.logo{
+    flex: 2;
+    font-size: 3em;
+    font-weight: 900;
+    margin: 50px;
+}
+
+.filter{    
+    flex: 1;
+    font-size: 1.5em;
+    border: none;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+    width: 130px;
+    height: 100%;
+}
+
+.bookmark{
+    flex: 0.25;
+}
+
+.bookmark-img{
+    width: 30%;
+    height:auto;
+}
+
+.showcase-img{
+    object-fit: cover;
+    height:80vh;
+    width: auto;
+
+}
+
+div.form-entry{
+    justify-content: flex-start;
+    height:auto;
+    padding: 3vh;
+}
+
+.gallery-img {
+    width: 30vw;
+    height: auto;
+    margin-top: 30px;
+    display: block;
+}
+
+.home-btn{
+    text-align: center;
+    position: absolute;
+}
+
+.top-margin{
+    margin-top: 15vh;
+}
+
+.info-img{
+    width: 80%;
+    height: auto;
+    max-height: 85vh;
+    justify-content: center;
+    text-align: center;
+}
+
+.dropdown{
+    position:relative;
+    display:block;
+    align-items: stretch;
+    height: 15vh;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #F5F5DC;
+    text-align: center;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    /*border: 1px solid black;*/
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: block;
+}
+
+.art-desc-div{
+    display: block;
+    margin: 30px;
+
+    text-align: center;
+    max-height: 85vh;
+}
+
+.art-name{
+    font-weight: 900;
+    font-size: 3em;
+    margin-bottom: 0px;
+}
+
+.art-desc{
+    font-style: italic;
+    font-size: 1em;
+    margin: 10px;
+}
+
+.dropdown:hover {background-color: #ddd;}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+.dropdown-flex:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown-flex:hover .dropbtn {background-color: #3e8e41;}

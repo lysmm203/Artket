@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Home </title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="child-container header-text">
+            <div class="logo">
+                <a href="{{url_for('home_display')}}">Artket</a>
+            </div>
+
+            <div class="dropdown">
+                <a href="{{url_for('gallery_display')}}"><button class="filter" type="button">Gallery</button></a>
+
+            </div>
+
+            <div class="dropdown">
+                <button class="filter">
+                    Medium
+                </button>
+
+                <div class="dropdown-content">
+                    <a>Tempera</a>
+                    <a>Oil Painting</a>
+                    <a>Acrylic Painting</a>
+                    <a>Watercolors</a>
+                    <a>Charcoal</a>
+                    <a>Pastels</a>
+                    <a>Chalk</a>
+                    <a>Graphite</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="filter">
+                    Artists
+                </button>
+                <div class="dropdown-content">
+                    <a>Sandro Botticelli</a>
+                    <a>Leonardo Da Vinci</a>
+                    <a>Francisco Goya</a>
+                    <a>Vincent Van Gogh</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="filter">
+                    Price
+                </button>
+                <div class="dropdown-content">
+                    <div style="display: flex; ">
+
+                        <div style="background-color: #F5F5DC;">
+                            <div style="margin: 10px;">
+                                <label for="min-value" >Minimum Price: </label>
+                                <input type="number" id="min-value" name="min-value">
+                            </div>
+
+                            <div style="margin: 10px;">
+                                <label for="max-value">Maximum Price: </label>
+                                <input type="number" id="max-value" name="max-value">
+                            </div>
+
+                            <button type="submit" style="margin: 15px;">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="child-container header-bookmark">
+
+            <div class="bookmark">
+                <a href="../saved_page/index.html">
+                    <img class = "bookmark-img" src="/static/images/bookmark.png">
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>
