@@ -188,6 +188,83 @@ def signup_user():
         """
 
 
+# http://127.0.0.1:8000/user_saved
+@app.route("/user_saved")
+def get_user_saved():
+    response = requests.get(
+        BASE + "/user/saved",
+        json={
+            "data": {
+                "user_uid": 2,
+                "user_password": "dev_pw_test",
+            }
+        },
+    )
+
+    print(response)
+    return f"""
+            <html>
+              <body>
+                <div>
+                  <p>{response.json()}</p>
+                </div>
+              </body>
+            </html>
+            """
+
+
+# http://127.0.0.1:8000/user_saved_add
+@app.route("/user_saved_add")
+def add_to_user_saved():
+    response = requests.put(
+        BASE + "/user/saved",
+        json={
+            "data": {
+                "user_uid": 2,
+                "user_password": "dev_pw_test",
+                "artwork_uid": 1,
+            }
+        },
+    )
+
+    print(response)
+    return f"""
+            <html>
+              <body>
+                <div>
+                  <p>{response.json()}</p>
+                </div>
+              </body>
+            </html>
+            """
+
+
+# http://127.0.0.1:8000/user_saved_remove
+@app.route("/user_saved_remove")
+def remove_from_user_saved():
+    response = requests.delete(
+        BASE + "/user/saved",
+        json={
+            "data": {
+                "user_uid": 2,
+                "user_password": "dev_pw_test",
+                "artwork_uid": 1,
+            }
+        },
+    )
+
+    print(response)
+    return f"""
+            <html>
+              <body>
+                <div>
+                  <p>{response.json()}</p>
+                </div>
+              </body>
+            </html>
+            """
+
+
 def main():
     # http://127.0.0.1:8000/img_display
     # http://127.0.0.1:8000/sell_art
