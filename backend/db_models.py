@@ -160,6 +160,28 @@ class UserModel(db.Model):
     def get_password(self):
         return self.password
 
+    def get_saved(self):
+        return list(self.saved)
+
+    def add_to_saved(self, artwork_id):
+        self.saved = set(self.saved)
+        self.saved.add(artwork_id)
+
+        self.saved = bytearray(self.saved)
+        db.session.commit()
+
+    def remove_from_saved(self, artwork_id):
+        self.saved = set(self.saved)
+        if artwork_id not in self.saved:
+            raise KeyError(
+                f"User does not save any artwork with id {artwork_id}"
+            )
+
+        self.saved.remove(artwork_id)
+
+        self.saved = bytearray(self.saved)
+        db.session.commit()
+
     def update_bought(self, bought_artwork_uid):
         self.bought = set(self.bought)
         self.bought.add(bought_artwork_uid)
@@ -185,10 +207,22 @@ class UserModel(db.Model):
         self.update_ranking()
 
     def update_ranking(self):
-        # There are 5 ranks. To rank up, you need to buy or sell 10 artworks.
-        # e.g. User starts at rank 1. To rank up to Rank 2, buy or sell 10 artworks. To rank up to Rank 3,
-        # buy or sell 10 more
-        pass
+
+        user_points = 1.5 * len(self.bought) + 0.00001 * self.spend
+        user_points += 0.75 * len(self.sold)
+
+        # generate by recursively point += 50 * i ** (i / 2.5), start point = 0
+        min_ranking_points = [0, 50, 137, 323, 783, 2033, 5719, 17340]
+
+        ranking = 8
+        for i in range(len(min_ranking_points)):
+            if user_points < min_ranking_points[i]:
+                ranking = i
+                break
+
+        self.ranking = ranking
+        db.session.commit()
+
 
 
 class InvitationCodeModel(db.Model):
