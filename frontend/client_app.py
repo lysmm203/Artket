@@ -1,5 +1,6 @@
 import requests
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, g, session
+
 
 from frontend.utils import convert_artpic_to_base64str
 
@@ -13,11 +14,15 @@ BASE = "http://127.0.0.1:5000"
 def home_display():
     return render_template("homepage.html")
 
-@app.route("/img_display")
+@app.route("/img_display/")
 def img_display():
-    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": 1}})
+    img_id = request.args.get('values')
+    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": int(img_id)}})
+    response = response.json()
 
-    print(response)
+    return render_template("information.html", value=response)
+
+
     return f"""
         <html>
           <body>
@@ -56,9 +61,6 @@ def sell_art():
         },
     )
 
-    print(response)
-    print(response.json())
-
     return f"{response.json()}"
 
 
@@ -90,6 +92,7 @@ def buy_art():
 @app.route("/gallery_display")
 def gallery_display():
     response = requests.get(BASE + "/gallery")
+
     # response = requests.get(BASE + "/gallery", {
     #     "artwork_num": 5,
     #     "artist_filter": [
@@ -116,13 +119,8 @@ def gallery_display():
 
     print(response)
     response = response.json()
+    abc = 1
 
-    html_div_str = str()
-    for item in response:
-        html_div_str += (
-            f'<p>{item["info"]}</p> '
-            f'<img src="data:image/png;base64,{item["artpic"]}"/>'
-        )
 
     return render_template("gallery.html", value=response)
 
@@ -137,6 +135,7 @@ def signin_user():
             BASE + "/user/get",
             json={
                 "data": {
+                    # If @ is in string, it's email. Otherwise, it's phone
                     "email": email_or_phone,
                     "mobile": email_or_phone,
                     "password": password,
@@ -151,25 +150,10 @@ def signin_user():
                 return redirect(url_for('home_display'))
             else:
                 error_message = response.json()['error_msg']
-                flash(error_message)
-
+                flash(error_message, 'error')
 
 
     return render_template("login.html")
-
-
-
-    print(response)
-    return f"""
-        <html>
-          <body>
-            <div>
-              <p>{response.json()}</p>
-            </div>
-          </body>
-        </html>
-        """
-
 
 # http://127.0.0.1:8000/sign_up
 @app.route("/sign_up", methods=['GET', 'POST'])
@@ -200,21 +184,7 @@ def signup_user():
 
         return redirect(url_for('signin_user'))
 
-
-
     return render_template("register.html")
-
-    print(response)
-    return f"""
-        <html>
-          <body>
-            <div>
-              <p>{response.json()}</p>
-            </div>
-          </body>
-        </html>
-        """
-
 
 def main():
     # http://127.0.0.1:8000/img_display

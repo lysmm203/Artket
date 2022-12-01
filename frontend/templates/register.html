@@ -7,38 +7,42 @@
     <img class = "login-img" src="/static/images/monalisa.jpeg">
 </div>
 
-<div class="child-container">
+<div class="child-container" style="flex-flow:wrap; height: 100vh;">
 
-<form method="POST">
-    <div>
-        <label for="name">Name: </label>
-        <input type="text" id="name" name="name">
-    </div>
-    <div>
-        <label for="email">Email: </label>
-        <input type="text" id="email" name="email">
-    </div>
-    <div>
-        <label for="password">Password: </label>
-        <input type="text" id="password" name="password">
-    </div>
-    <div>
-        <label for="confirm-password">Confirm Password: </label>
-        <input type="text" id="confirm-password" name="confirm-password">
-    </div>
-    <div>
-        <label for="phone-number">Phone Number: </label>
-        <input type="text" id="phone-number" name="phone-number">
-    </div>
-    <div>
-        <label for="invitation-code">Invitation code: </label>
-        <input type="text" id="invitation-code" name="invitation-code">
-    </div>
-    <div>
-        <button type="submit">Register</button>
+    <div class="page-indicator">
+        Register
     </div>
 
-</form>
+    <form method="POST">
+        <div>
+            <label for="name">Name: </label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="email">Email: </label>
+            <input type="text" id="email" name="email">
+        </div>
+        <div>
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div>
+            <label for="confirm-password">Confirm Password: </label>
+            <input type="password" id="confirm-password" name="confirm-password">
+        </div>
+        <div>
+            <label for="phone-number">Phone Number: </label>
+            <input type="text" id="phone-number" name="phone-number">
+        </div>
+        <div>
+            <label for="invitation-code">Invitation code: </label>
+            <input type="text" id="invitation-code" name="invitation-code">
+        </div>
+        <div>
+            <button type="submit">Register</button>
+        </div>
+
+    </form>
 </div>
 
 {% endblock %}

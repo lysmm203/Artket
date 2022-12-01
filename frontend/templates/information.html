@@ -1,0 +1,34 @@
+{% extends 'base_nav_bar.html' %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+
+<div class="child-container top-margin">
+    <img class="info-img" src="data:image/png;base64,{{value['artpic']}}"/>
+
+</div>
+
+<div class="child-container top-margin" style="display: block; max-height: 85vh;">
+    <div class="art-desc-div" style="padding-top: 1vh;">
+        <p class="art-name">{{value['info']['name']}}</p>
+        <p style="font-style: italic; font-size: 1.5em; margin: 10px;">Authentic</p>
+    </div>
+
+    <div class="art-desc-div">
+        <p class="art-desc"> <b>Genre </b>: {{value['info']['genre']}} </p>
+        <p class="art-desc"> <b>Medium </b>: {{value['info']['medium']}} </p>
+        <p class="art-desc"> <b>Surface </b>: {{value['info']['surface']}} </p>
+        <p class="art-desc"> <b>Artist </b>: {{value['info']['artist']}} </p>
+        <p class="art-desc"> <b>Date of Creation </b>: {{value['info']['created_date']}} </p>
+        <p class="art-desc"> <b> Location of Creation </b>: {{value['info']['created_location']}} </p>
+    </div>
+
+    <div class="art-desc-div">
+        <button type="submit" class="none-nav-button">Bid</button>
+    </div>
+
+
+
+
+</div>
+
+{% endblock %}

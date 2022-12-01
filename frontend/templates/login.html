@@ -6,7 +6,11 @@
     <img class = "login-img" src="/static/images/monalisa.jpeg">
 </div>
 
-<div class="child-container">
+<div class="child-container" style="flex-flow:wrap; height: 100vh;">
+
+    <div class="page-indicator">
+        Login
+    </div>
 
     <form method="POST">
         <div>
@@ -15,13 +19,13 @@
         </div>
         <div>
             <label for="password">Password: </label>
-            <input type="text" id="password" name="password">
+            <input type="password" id="password" name="password">
         </div>
         <div style="display: flex;">
             <button type="submit" class="form-button" name="submit-button" value="login">Login</button>
             <button type="submit" class="form-button" name="submit-button" value="register" onclick="{{url_for('signup_user')}}">Register</button>
         </div>
-        <div>
+        <div style="color: red;">
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             {% for message in messages %}

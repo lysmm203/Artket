@@ -18,6 +18,11 @@
             </div>
 
             <div class="dropdown">
+                <a href="{{url_for('gallery_display')}}"><button class="filter" type="button">Gallery</button></a>
+
+            </div>
+
+            <div class="dropdown">
                 <button class="filter">
                     Medium
                 </button>
@@ -53,12 +58,17 @@
                 <div class="dropdown-content">
                     <div style="display: flex; ">
 
-                        <div style="background-color: #F8C4B4;">
-                            <label for="min-value" >Minimum Price: </label>
-                            <input type="number" id="min-value" name="min-value">
+                        <div style="background-color: #F5F5DC;">
+                            <div style="margin: 10px;">
+                                <label for="min-value" >Minimum Price: </label>
+                                <input type="number" id="min-value" name="min-value">
+                            </div>
 
-                            <label for="max-value">Maximum Price: </label>
-                            <input type="number" id="max-value" name="max-value">
+                            <div style="margin: 10px;">
+                                <label for="max-value">Maximum Price: </label>
+                                <input type="number" id="max-value" name="max-value">
+                            </div>
+
                             <button type="submit" style="margin: 15px;">Submit</button>
                         </div>
                     </div>

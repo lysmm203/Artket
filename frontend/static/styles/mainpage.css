@@ -1,7 +1,7 @@
 body{
     margin:0;
     font-family: 'Montserrat', sans-serif;
-    background-color: #F5F5DC;
+    background-color: white;
 }
 div{
     display:flex;
@@ -15,9 +15,16 @@ a {
     color: inherit;
 }
 
-hr{
-    width: 100%;
-    display: block;
+.none-nav-button {
+  background-color: #F5F5DC;
+  border: none;
+  color: black;
+  padding: 15px 60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 16px;
 }
 
 form div {
@@ -30,10 +37,19 @@ label{
     display: block;
 }
 
+.page-indicator{
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin: 30px;
+    font-weight: bold;
+
+}
 
 .child-container{
     width: 100%;
     max-width: 100%;
+    height: 85vh;
 
 }
 
@@ -68,8 +84,10 @@ label{
   }
 
 .header {
-    background-color: #F8C4B4;
+    background-color: #F5F5DC;
     height: 15vh;
+    position: fixed;
+    width: 100vw;
 }
 
 .child-container.header-text{
@@ -83,7 +101,7 @@ label{
 .logo{
     flex: 2;
     font-size: 3em;
-    font-weight: bold;
+    font-weight: 900;
     margin: 50px;
 }
 
@@ -131,6 +149,17 @@ div.form-entry{
     position: absolute;
 }
 
+.top-margin{
+    margin-top: 15vh;
+}
+
+.info-img{
+    width: 80%;
+    height: auto;
+    max-height: 85vh;
+    justify-content: center;
+    text-align: center;
+}
 
 .dropdown{
     position:relative;
@@ -141,7 +170,7 @@ div.form-entry{
 
 .dropdown-content {
     display: none;
-    background-color: #F8C4B4;
+    background-color: #F5F5DC;
     text-align: center;
     z-index: 1;
     position: absolute;
@@ -155,6 +184,28 @@ div.form-entry{
     text-decoration: none;
     display: block;
 }
+
+.art-desc-div{
+    display: block;
+    margin: 30px;
+
+    text-align: center;
+    max-height: 85vh;
+}
+
+.art-name{
+    font-weight: 900;
+    font-size: 3em;
+    margin-bottom: 0px;
+}
+
+.art-desc{
+    font-style: italic;
+    font-size: 1em;
+    margin: 10px;
+}
+
+.dropdown:hover {background-color: #ddd;}
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #ddd;}
