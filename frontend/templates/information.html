@@ -4,11 +4,10 @@
 
 <div class="child-container top-margin">
     <img class="info-img" src="data:image/png;base64,{{value['artpic']}}"/>
-
 </div>
 
 <div class="child-container top-margin" style="display: block; max-height: 85vh;">
-    <div class="art-desc-div" style="padding-top: 1vh;">
+    <div class="art-desc-div" style="padding-top: 5vh;">
         <p class="art-name">{{value['info']['name']}}</p>
         <p style="font-style: italic; font-size: 1.5em; margin: 10px;">Authentic</p>
     </div>
@@ -23,7 +22,9 @@
     </div>
 
     <div class="art-desc-div">
-        <button type="submit" class="none-nav-button">Bid</button>
+        <a href="{{url_for('buy_art', img_id=value['info']['uid'])}}">
+            <button type="submit" class="none-nav-button">Purchase</button>
+        </a>
     </div>
 
 

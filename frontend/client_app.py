@@ -16,23 +16,34 @@ def home_display():
 
 @app.route("/img_display/")
 def img_display():
-    img_id = request.args.get('values')
+    img_id = request.args.get('img_id')
     response = requests.get(BASE + "/artwork/get", json={"data": {"uid": int(img_id)}})
     response = response.json()
 
     return render_template("information.html", value=response)
 
+# http://127.0.0.1:8000/buy_art
+@app.route("/buy_art")
+def buy_art():
+    img_id = request.args.get('img_id')
+    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": int(img_id)}})
+    response = response.json()
+    # response = requests.post(
+    #     BASE + "/artwork/buy",
+    #     json={
+    #         "data": {
+    #             "buyer_uid": 2,
+    #             "buyer_password": "dev_pw_test",
+    #             "artwork_uid": 3,
+    #             "card_number": 378282246310005,
+    #             "expire_date": "11/25",
+    #             "cvv_code": 498,
+    #             "paid_amount": 100000000,
+    #         }
+    #     },
+    # )
 
-    return f"""
-        <html>
-          <body>
-            <div>
-              <p>{response.json()["info"]}</p>
-              <img src="data:image/png;base64,{response.json()["artpic"]}"/>
-            </div>
-          </body>
-        </html>
-        """
+    return render_template("buy.html", value=response)
 
 
 # http://127.0.0.1:8000/sell_art
@@ -64,28 +75,7 @@ def sell_art():
     return f"{response.json()}"
 
 
-# http://127.0.0.1:8000/buy_art
-@app.route("/buy_art")
-def buy_art():
-    response = requests.post(
-        BASE + "/artwork/buy",
-        json={
-            "data": {
-                "buyer_uid": 2,
-                "buyer_password": "dev_pw_test",
-                "artwork_uid": 1,
-                "card_number": 378282246310005,
-                "expire_date": "11/25",
-                "cvv_code": 498,
-                "paid_amount": 100000000,
-            }
-        },
-    )
 
-    print(response)
-    print(response.json())
-
-    return f"{response.json()}"
 
 
 # http://127.0.0.1:8000/gallery_display

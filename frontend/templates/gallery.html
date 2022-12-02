@@ -10,8 +10,8 @@
     <div style="display: block;">
     {% for item in value %}
             <div class="gallery-img">
-                <a href="{{url_for('img_display', values=item['info']['uid'])}}">
-                    <img class="gallery-img" src="data:image/png;base64,{{item['artpic']}}"/>
+                <a href="{{url_for('img_display', img_id=item['info']['uid'])}}">
+                    <img class="gallery-img" style="margin: 0px;"src="data:image/png;base64,{{item['artpic']}}"/>
                 </a>
                 <strong><label style="font-size: 1.5em;">{{item["info"]["name"]}}</label></strong>
                 <label>{{item["info"]["artist"]}}</label>

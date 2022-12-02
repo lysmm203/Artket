@@ -1,0 +1,53 @@
+{% extends 'base_nav_bar.html' %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+
+
+<div class="child-container top-margin">
+    <img class="info-img" src="data:image/png;base64,{{value['artpic']}}"/>
+</div>
+
+<div class="child-container top-margin" style="display: block; max-height: 85vh;">
+{#    <div class="art-desc-div" style="padding-top: 5vh;">#}
+{#        <p class="art-name">{{value['info']['name']}}</p>#}
+{#        <p style="font-style: italic; font-size: 1.5em; margin: 10px;">Authentic</p>#}
+{#    </div>#}
+
+    <div class="art-desc-div">
+        <p style="font-style: italic; font-size: 1.5em; margin: 10px;"> Price : {{value['info']['min_value']}} </p>
+        <div style="margin: 10vh;">
+            <form method="POST" style="text-align: left;">
+            <div>
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name">
+            </div>
+            <div>
+                <label for="email">Email: </label>
+                <input type="text" id="email" name="email">
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div>
+                <label for="confirm-password">Confirm Password: </label>
+                <input type="password" id="confirm-password" name="confirm-password">
+            </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="art-desc-div">
+        <a href="{{url_for('home_display')}}">
+            <button type="submit" class="none-nav-button">Purchase</button>
+        </a>
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}
