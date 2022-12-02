@@ -50,9 +50,16 @@ class GetUser(Resource):
     def post(self):
         data = self.parser.parse_args()["data"]
 
+        user_email, user_mobile = None, None
+        if "email_or_mobile" in data:
+            if "+" in data["email_or_mobile"]:
+                user_mobile = data["email_or_mobile"]
+            elif "@" in data["email_or_mobile"]:
+                user_email = data["email_or_mobile"]
+
         return get_user(
             uid=data["uid"] if "uid" in data else None,
-            email=data["email"] if "email" in data else None,
-            mobile=data["mobile"] if "mobile" in data else None,
+            email=user_email,
+            mobile=user_mobile,
             password=data["password"] if "password" in data else None,
         )

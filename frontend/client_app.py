@@ -1,6 +1,5 @@
 import requests
-from flask import Flask, render_template, request, redirect, url_for, flash, g, session
-
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 from frontend.utils import convert_artpic_to_base64str
 
@@ -14,19 +13,25 @@ BASE = "http://127.0.0.1:5000"
 def home_display():
     return render_template("homepage.html")
 
+
 @app.route("/img_display/")
 def img_display():
-    img_id = request.args.get('img_id')
-    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": int(img_id)}})
+    img_id = request.args.get("img_id")
+    response = requests.get(
+        BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
+    )
     response = response.json()
 
     return render_template("information.html", value=response)
 
+
 # http://127.0.0.1:8000/buy_art
 @app.route("/buy_art")
 def buy_art():
-    img_id = request.args.get('img_id')
-    response = requests.get(BASE + "/artwork/get", json={"data": {"uid": int(img_id)}})
+    img_id = request.args.get("img_id")
+    response = requests.get(
+        BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
+    )
     response = response.json()
     # response = requests.post(
     #     BASE + "/artwork/buy",
@@ -75,9 +80,6 @@ def sell_art():
     return f"{response.json()}"
 
 
-
-
-
 # http://127.0.0.1:8000/gallery_display
 @app.route("/gallery_display")
 def gallery_display():
@@ -111,50 +113,48 @@ def gallery_display():
     response = response.json()
     abc = 1
 
-
     return render_template("gallery.html", value=response)
 
+
 # http://127.0.0.1:8000/sign_in
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def signin_user():
     if request.method == "POST":
-        email_or_phone = request.form.get('email-or-phone')
-        password = request.form.get('password')
+        email_or_phone = request.form.get("email-or-phone")
+        password = request.form.get("password")
 
         response = requests.post(
             BASE + "/user/get",
             json={
                 "data": {
-                    # If @ is in string, it's email. Otherwise, it's phone
-                    "email": email_or_phone,
-                    "mobile": email_or_phone,
+                    "email_or_mobile": email_or_phone,
                     "password": password,
                 }
             },
         )
 
-        if request.form['submit-button'] == 'register':
-            return redirect(url_for('signup_user'))
-        elif request.form['submit-button'] == 'login':
+        if request.form["submit-button"] == "register":
+            return redirect(url_for("signup_user"))
+        elif request.form["submit-button"] == "login":
             if response.status_code == 200:
-                return redirect(url_for('home_display'))
+                return redirect(url_for("home_display"))
             else:
-                error_message = response.json()['error_msg']
-                flash(error_message, 'error')
-
+                error_message = response.json()["error_msg"]
+                flash(error_message, "error")
 
     return render_template("login.html")
 
+
 # http://127.0.0.1:8000/sign_up
-@app.route("/sign_up", methods=['GET', 'POST'])
+@app.route("/sign_up", methods=["GET", "POST"])
 def signup_user():
     if request.method == "POST":
-        name = request.form.get('name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm-password')
-        invitation_code = request.form.get('invitation-code')
-        phone_number = request.form.get('phone-number')
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm-password")
+        invitation_code = request.form.get("invitation-code")
+        phone_number = request.form.get("phone-number")
 
         response = requests.put(
             BASE + "/user/create",
@@ -170,11 +170,13 @@ def signup_user():
         )
 
         print(
-            f"Name: {name} Email: {email} Password: {password} Invitation code: {invitation_code} Phone Number: {phone_number}")
+            f"Name: {name} Email: {email} Password: {password} Invitation code: {invitation_code} Phone Number: {phone_number}"
+        )
 
-        return redirect(url_for('signin_user'))
+        return redirect(url_for("signin_user"))
 
     return render_template("register.html")
+
 
 # http://127.0.0.1:8000/user_saved
 @app.route("/user_saved")

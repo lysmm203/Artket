@@ -224,7 +224,6 @@ class UserModel(db.Model):
         db.session.commit()
 
 
-
 class InvitationCodeModel(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     available_code = db.Column(db.String(20), nullable=False, unique=True)
