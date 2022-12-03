@@ -10,12 +10,15 @@ def get_user(uid=None, email=None, mobile=None, password=None):
     # validate input arg
     if not any([uid, email, mobile]):
         error_msg = (
-            "User's uid, email address, or mobile number must be provided"
+            "Missing email address or mobile number. User's uid, email "
+            "address, or mobile number must be provided"
         )
         return {"error_msg": error_msg}, Hsta.UNAUTHORIZED
 
     if not password:
-        return {"error_msg": "Password must be provided"}, Hsta.UNAUTHORIZED
+        return {
+            "error_msg": "Missing password. Password must be provided"
+        }, Hsta.UNAUTHORIZED
 
     # find the user with uid, email, or mobile
     user = None
@@ -26,21 +29,27 @@ def get_user(uid=None, email=None, mobile=None, password=None):
         user = dbm.UserModel.query.filter_by(email=email).first()
 
     if not user and mobile:
-        user = dbm.UserModel.query.filter_by(
-            mobile=pn.format_number(
-                pn.parse(mobile), pn.PhoneNumberFormat.E164
-            )
-        ).first()
+        try:
+            user = dbm.UserModel.query.filter_by(
+                mobile=pn.format_number(
+                    pn.parse(mobile), pn.PhoneNumberFormat.E164
+                )
+            ).first()
+        except pn.NumberParseException:
+            user = None
 
     if not user:
-        error_msg = "No user with provided uid, email, or mobile"
+        error_msg = (
+            "Incorrect email address or mobile number. No user with "
+            "provided uid, email, or mobile"
+        )
         return {"error_msg": error_msg}, Hsta.NOT_FOUND
 
     # check the user's password with match data
     if user.get_password() == password:
         return user.to_dict(), Hsta.OK
     else:
-        return {"error_msg": "Incorrect password"}, Hsta.UNAUTHORIZED
+        return {"error_msg": "Incorrect password."}, Hsta.UNAUTHORIZED
 
 
 class GetUser(Resource):

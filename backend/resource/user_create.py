@@ -27,7 +27,8 @@ def validate_create_user_query(data_dict):
         or not all(data_dict.values())
     ):
         error_msg = (
-            'All "email", "mobile", "username", "password", and '
+            'Missing fields. All "email", "mobile", "username", "password", '
+            "and "
             '"invitation_code" argument must be provided (as type '
             "string and cannot be None) in data field in json of "
             "the query"
@@ -37,10 +38,16 @@ def validate_create_user_query(data_dict):
 
     email_regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
     if not re.fullmatch(email_regex, data_dict["email"]):
-        return False, {"error_msg": "Invalid email address"}, Hsta.BAD_REQUEST
+        return False, {"error_msg": "Invalid email address."}, Hsta.BAD_REQUEST
 
-    if not pn.is_valid_number(pn.parse(data_dict["mobile"])):
-        return False, {"error_msg": "Invalid mobile number"}, Hsta.BAD_REQUEST
+    if not all(
+        [
+            len(data_dict["mobile"]) > 10,
+            data_dict["mobile"][0] == "+",
+            data_dict["mobile"][1:].isnumeric(),
+        ]
+    ) or not pn.is_valid_number(pn.parse(data_dict["mobile"])):
+        return False, {"error_msg": "Invalid phone number."}, Hsta.BAD_REQUEST
 
     return True, {"error_msg": ""}, Hsta.OK
 
@@ -49,16 +56,25 @@ def create_user(data_dict):
     existed_user = dbm.UserModel.query.filter_by(
         email=data_dict["email"]
     ).first()
-
     if existed_user:
-        return {"error_msg": "Existed user"}, Hsta.CONFLICT
+        error_msg = "Existed user with provided email."
+        return {"error_msg": error_msg}, Hsta.CONFLICT
+
+    existed_mobile = dbm.UserModel.query.filter_by(
+        mobile=pn.format_number(
+            pn.parse(data_dict["mobile"]), pn.PhoneNumberFormat.E164
+        ),
+    ).first()
+    if existed_mobile:
+        error_msg = "Existed user with provided phone number."
+        return {"error_msg": error_msg}, Hsta.CONFLICT
 
     invite_code = dbm.InvitationCodeModel.query.filter_by(
         available_code=data_dict["invitation_code"]
     ).first()
 
     if not invite_code:
-        return {"error_msg": "Incorrect invitation_code"}, Hsta.UNAUTHORIZED
+        return {"error_msg": "Incorrect invitation code."}, Hsta.UNAUTHORIZED
 
     dbm.db.session.delete(invite_code)
 

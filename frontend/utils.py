@@ -16,3 +16,12 @@ def convert_artpic_to_base64str(artpic_path):
     encoded_img = b64.encodebytes(byte_arr.getvalue()).decode("ascii")
 
     return encoded_img
+
+
+def get_missing_vars(var_names, var_values):
+    missing_vars = list()
+    for i, value in enumerate(var_values):
+        if not value:
+            missing_vars.append(var_names[i])
+
+    return missing_vars
