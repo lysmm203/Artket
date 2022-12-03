@@ -9,7 +9,6 @@ app.secret_key = "client_app"
 BASE = "http://127.0.0.1:5000"
 
 
-# http://127.0.0.1:8000/img_display
 @app.route("/home")
 def home_display():
     if "curr_user" not in session:

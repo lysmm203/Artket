@@ -2,7 +2,7 @@ import requests
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
 
-from frontend.utils import get_missing_vars
+from frontend import utils
 
 app = Flask(__name__)
 app.secret_key = "client_app"
@@ -28,7 +28,7 @@ def signin_user():
         return render_template("login.html", error_msg=_error_msg)
 
     if request.method != "POST":
-        return login_page()
+        return login_page(utils.get_session_error_msg(session))
 
     # code from this point req request.method == "POST"
     if request.form["submit-button"] == "register":
@@ -49,7 +49,12 @@ def signin_user():
 
     if response.status_code == 200:
         session["curr_user"] = response.json()
-        return redirect(url_for("home_display"))
+
+        redirect_from = utils.get_session_redirect_from(session)
+        if redirect_from:
+            return redirect(url_for(redirect_from))
+        else:
+            return redirect(url_for("home_display"))
 
     else:
         error_msg = response.json()["error_msg"].split(".", 1)[0]
@@ -73,7 +78,7 @@ def signup_user():
     invitation_code = request.form.get("invitation-code")
     phone_number = request.form.get("phone-number")
 
-    missing_vars = get_missing_vars(
+    missing_vars = utils.get_missing_vars(
         ["name", "email", "phone number", "password", "invitation code"],
         [name, email, phone_number, password, invitation_code],
     )
@@ -98,17 +103,23 @@ def signup_user():
 
     if response.status_code == 200:
         session["curr_user"] = response.json()
-        return redirect(url_for("home_display"))
+
+        redirect_from = utils.get_session_redirect_from(session)
+        if redirect_from:
+            return redirect(url_for(redirect_from))
+        else:
+            return redirect(url_for("home_display"))
 
     else:
         error_msg = response.json()["error_msg"].split(".", 1)[0]
         return register_page(error_msg)
 
 
-# http://127.0.0.1:8000/img_display
+# http://127.0.0.1:8000/home
 @app.route("/home")
 def home_display():
     if "curr_user" not in session:
+        utils.redirect_signin_error(session, "home_display")
         return redirect(url_for("signin_user"))
 
     print(session["curr_user"])
@@ -119,12 +130,59 @@ def home_display():
 @app.route("/gallery_display")
 def gallery_display():
     if "curr_user" not in session:
+        utils.redirect_signin_error(session, "gallery_display")
         return redirect(url_for("signin_user"))
 
     response = requests.get(BASE + "/gallery")
     response = response.json()
 
     return render_template("gallery.html", value=response)
+
+
+# http://127.0.0.1:8000/img_display
+@app.route("/img_display/")
+def img_display():
+    if "curr_user" not in session:
+        utils.redirect_signin_error(session, "img_display", False)
+        return redirect(url_for("signin_user"))
+
+    img_id = request.args.get("img_id")
+    response = requests.get(
+        BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
+    )
+    response = response.json()
+
+    return render_template("information.html", value=response)
+
+
+# http://127.0.0.1:8000/buy_art/
+@app.route("/buy_art")
+def buy_art():
+    if "curr_user" not in session:
+        utils.redirect_signin_error(session, "buy_art", False)
+        return redirect(url_for("signin_user"))
+
+    img_id = request.args.get("img_id")
+    response = requests.get(
+        BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
+    )
+    response = response.json()
+    # response = requests.post(
+    #     BASE + "/artwork/buy",
+    #     json={
+    #         "data": {
+    #             "buyer_uid": 2,
+    #             "buyer_password": "dev_pw_test",
+    #             "artwork_uid": 3,
+    #             "card_number": 378282246310005,
+    #             "expire_date": "11/25",
+    #             "cvv_code": 498,
+    #             "paid_amount": 100000000,
+    #         }
+    #     },
+    # )
+
+    return render_template("buy.html", value=response)
 
 
 def main():

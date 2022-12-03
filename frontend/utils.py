@@ -2,6 +2,7 @@ import base64 as b64
 import io
 
 from PIL import Image
+from flask import url_for
 
 
 def convert_artpic_to_base64str(artpic_path):
@@ -25,3 +26,31 @@ def get_missing_vars(var_names, var_values):
             missing_vars.append(var_names[i])
 
     return missing_vars
+
+
+def get_session_redirect_from(session):
+    if "redirect_from" in session:
+        value = session["redirect_from"]
+        session.pop("redirect_from", None)
+
+        return value
+
+    return None
+
+
+def get_session_error_msg(session):
+    if "error_msg" in session:
+        value = session["error_msg"]
+        session.pop("error_msg", None)
+
+        return value
+
+    return None
+
+
+def redirect_signin_error(session, redirect_from, remember_redirect_from=True):
+    site_name = url_for(redirect_from).replace('_', ' ').replace('/', '')
+    session["error_msg"] = f"You must login to see {site_name} site"
+
+    if remember_redirect_from:
+        session["redirect_from"] = redirect_from
