@@ -11,9 +11,9 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route("/")
 def base_url():
-    # for dev only
-    if "curr_user" in session:
-        del session["curr_user"]
+    # # for dev only
+    # if "curr_user" in session:
+    #     del session["curr_user"]
 
     if "curr_user" not in session:
         return redirect(url_for("signin_user"))
