@@ -19,7 +19,7 @@ def artwork_db_generator(db_session, artwork_model):
             created_date="1889",
             created_location="France",
             genre="post-impressionism",
-            medium="oil painting",
+            medium="tempera",
             min_value=100000000,
             name="Starry Night",
             surface="canvas",
@@ -31,7 +31,7 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Leonardo Da Vinci",
+            artist="Vincent Van Gogh",
             created_date="1517",
             created_location="Louvre",
             genre="portrait",
@@ -47,11 +47,11 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Johannes Vermeer",
+            artist="Vincent Van Gogh",
             created_date="1665",
             created_location="Netherlands",
             genre="portrait",
-            medium="oil painting",
+            medium="acrylic painting",
             min_value=30000000,
             name="Girl with a Pearl Earring",
             surface="canvas",
@@ -63,11 +63,11 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Gustav Klimt",
+            artist="Sandro Botticelli",
             created_date="1908",
             created_location="Austria",
             genre="modern",
-            medium="oil painting, pastels",
+            medium="watercolors",
             min_value=240000,
             name="The Kiss",
             surface="canvas",
@@ -83,7 +83,7 @@ def artwork_db_generator(db_session, artwork_model):
             created_date="1485",
             created_location="Italy",
             genre="renaissance",
-            medium="oil painting, pastels",
+            medium="charcoal",
             min_value=500000000,
             name="The Birth of Venus",
             surface="canvas",
@@ -95,11 +95,11 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Peiter Bruegel the Elder",
+            artist="Leonardo Da Vinci",
             created_date="1565",
             created_location="Belgium",
             genre="renaissance",
-            medium="oil painting",
+            medium="pastels",
             min_value=25000000,
             name="The Harvesters",
             surface="wood",
@@ -111,11 +111,11 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Pablo Picasso",
+            artist="Leonardo Da Vinci",
             created_date="1937",
             created_location="France",
             genre="cubism",
-            medium="oil painting",
+            medium="chalk",
             min_value=200000000,
             name="Guernica",
             surface="canvas",
@@ -131,7 +131,7 @@ def artwork_db_generator(db_session, artwork_model):
             created_date="1800",
             created_location="Spain",
             genre="romanticism",
-            medium="oil painting",
+            medium="graphite pencils",
             min_value=10000000,
             name="The Naked Maja",
             surface="canvas",
@@ -143,11 +143,11 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Vincent Van Gogh",
+            artist="Francisco Goya",
             created_date="1890",
             created_location="France",
             genre="post-impressionism",
-            medium="oil painting, graphite pencils",
+            medium="tempera",
             min_value=81300000,
             name="Almond Blossoms",
             surface="canvas",
@@ -159,11 +159,11 @@ def artwork_db_generator(db_session, artwork_model):
 
     db_session.add(
         artwork_model(
-            artist="Georges Seurat",
+            artist="Leonardo Da Vinci",
             created_date="1886",
             created_location="France",
             genre="post-impressionism",
-            medium="oil painting, graphite pencils",
+            medium="oil painting",
             min_value=650000000,
             name="A Sunday Afternoon on the Island of La Grande Jatte",
             surface="canvas",

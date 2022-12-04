@@ -207,7 +207,6 @@ class UserModel(db.Model):
         self.update_ranking()
 
     def update_ranking(self):
-
         user_points = 1.5 * len(self.bought) + 0.00001 * self.spend
         user_points += 0.75 * len(self.sold)
 
@@ -222,7 +221,6 @@ class UserModel(db.Model):
 
         self.ranking = ranking
         db.session.commit()
-
 
 
 class InvitationCodeModel(db.Model):
