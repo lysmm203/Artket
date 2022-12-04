@@ -2,52 +2,48 @@
 {% block title %}Gallery{% endblock %}
 {% block content %}
 
+<div class="page-content-container">
+    <div class="page-column-container">
+        <img class="column-img-display" src="data:image/png;base64,{{value['artpic']}}"/>
+    </div>
 
-<div class="child-container top-margin">
-    <img class="info-img" src="data:image/png;base64,{{value['artpic']}}"/>
-</div>
+    <div class="page-column-container">
+        <div class="card-in-column">
+            <form method="POST" class="card-form">
 
-<div class="child-container top-margin" style="display: block; max-height: 85vh;">
-{#    <div class="art-desc-div" style="padding-top: 5vh;">#}
-{#        <p class="art-name">{{value['info']['name']}}</p>#}
-{#        <p style="font-style: italic; font-size: 1.5em; margin: 10px;">Authentic</p>#}
-{#    </div>#}
+                <div class="card-input-field">
+                    <label for="card-number">Card Number: </label>
+                    <input type="numeric" id="card-number" name="card-number" style="width: 80%;">
+                </div>
 
-    <div class="art-desc-div">
-        <p style="font-style: italic; font-size: 1.5em; margin: 10px;"> Price : {{value['info']['min_value']}} </p>
-        <div style="margin: 10vh;">
-            <form method="POST" style="text-align: left;">
-            <div>
-                <label for="name">Name: </label>
-                <input type="text" id="name" name="name">
-            </div>
-            <div>
-                <label for="email">Email: </label>
-                <input type="text" id="email" name="email">
-            </div>
-            <div>
-                <label for="password">Password: </label>
-                <input type="password" id="password" name="password">
-            </div>
-            <div>
-                <label for="confirm-password">Confirm Password: </label>
-                <input type="password" id="confirm-password" name="confirm-password">
-            </div>
+                <div class="card-input-field">
+                    <label for="expiration-date">Expiration Date: </label>
+                    <input type="month" id="expiration-date" name="expiration-date" style="width: 80%;">
+                </div>
+
+                <div class="card-input-field">
+                    <label for="cvv-code">CVV Code: </label>
+                    <input type="numeric" id="cvv-code" name="cvv-code" style="width: 80%;">
+                </div>
+
+                <div class="card-input-field">
+                    <label for="paid-amount">Paid Amount: </label>
+                    <input type="numeric" id="paid-amount" name="paid-amount" style="width: 80%;">
+                </div>
+
+                <div class="card-input-field">
+                    <label for="shipping-address">Shipping Address: </label>
+                    <input type="numeric" id="shipping-address" name="shipping-address" style="width: 80%;">
+                </div>
+
+                <div class="card-input-field">
+                    <button type="submit" class="none-nav-button">Purchase</button>
+                </div>
+
             </form>
         </div>
-
     </div>
-
-    <div class="art-desc-div">
-        <a href="{{url_for('home_display')}}">
-            <button type="submit" class="none-nav-button">Purchase</button>
-        </a>
-    </div>
-
-
-
 
 </div>
-
 
 {% endblock %}

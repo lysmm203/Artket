@@ -7,47 +7,46 @@
     <img class = "login-img" src="/static/images/monalisa.jpeg">
 </div>
 
-<div class="child-container" style="flex-flow:wrap; height: 100vh;">
+<div class="child-container" style="height: 100vh;">
+    <div class="card-in-column">
 
-    <div class="page-indicator">
-        Register
-    </div>
-
-    <form method="POST">
-        {% if error_msg %}
-            <div style="color: red;">
-                {{ error_msg }}
+        <form method="POST" class="card-form">
+        <p class="page-indicator" style="margin: 0;">Register</p>
+            {% if error_msg %}
+                <div style="color: red;">
+                    {{ error_msg }}
+                </div>
+            {% endif %}
+            <div>
+                <label for="name">Name: </label>
+                <input type="text" id ="name" name="name" style="width: 100%;">
             </div>
-        {% endif %}
-        <div>
-            <label for="name">Name: </label>
-            <input type="text" id="name" name="name">
-        </div>
-        <div>
-            <label for="email">Email: </label>
-            <input type="text" id="email" name="email">
-        </div>
-        <div>
-            <label for="phone-number">Phone Number: </label>
-            <input type="text" id="phone-number" name="phone-number">
-        </div>
-        <div>
-            <label for="password">Password: </label>
-            <input type="password" id="password" name="password">
-        </div>
-        <div>
-            <label for="confirm-password">Confirm Password: </label>
-            <input type="password" id="confirm-password" name="confirm-password">
-        </div>
-        <div>
-            <label for="invitation-code">Invitation code: </label>
-            <input type="text" id="invitation-code" name="invitation-code">
-        </div>
-        <div>
-            <button type="submit">Register</button>
-        </div>
+            <div>
+                <label for="email">Email: </label>
+                <input type="text" id="email" name="email" style="width: 100%;">
+            </div>
+            <div>
+                <label for="phone-number">Phone Number: </label>
+                <input type="text" id="phone-number" name="phone-number" style="width: 100%;">
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" style="width: 100%;">
+            </div>
+            <div>
+                <label for="confirm-password">Confirm Password: </label>
+                <input type="password" id="confirm-password" name="confirm-password" style="width: 100%;">
+            </div>
+            <div>
+                <label for="invitation-code">Invitation code: </label>
+                <input type="text" id="invitation-code" name="invitation-code" style="width: 100%;">
+            </div>
+            <div>
+                <button type="submit" class="none-nav-button">Register</button>
+            </div>
 
-    </form>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

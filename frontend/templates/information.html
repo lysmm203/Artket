@@ -13,12 +13,39 @@
     </div>
 
     <div class="art-desc-div">
-        <p class="art-desc"> <b>Genre </b>: {{value['info']['genre']}} </p>
-        <p class="art-desc"> <b>Medium </b>: {{value['info']['medium']}} </p>
-        <p class="art-desc"> <b>Surface </b>: {{value['info']['surface']}} </p>
-        <p class="art-desc"> <b>Artist </b>: {{value['info']['artist']}} </p>
-        <p class="art-desc"> <b>Date of Creation </b>: {{value['info']['created_date']}} </p>
-        <p class="art-desc"> <b> Location of Creation </b>: {{value['info']['created_location']}} </p>
+        <div style="display:flex; justify-content: center;">
+            <div style="display: block;">
+                <p class="art-desc"> <b>Genre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> <b>Medium: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> <b>Surface: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> <b>Artist: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> <b>Date of Creation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> <b> Location of Creation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+            </div>
+
+            <div style="display: block;">
+                <p class="art-desc"> {{value['info']['genre']}} </p>
+                <hr style="width: 100%;">
+                <p class="art-desc">  {{value['info']['medium']}} </p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> {{value['info']['surface']}} </p>
+                <hr style="width: 100%;">
+                <p class="art-desc"> {{value['info']['artist']}} </p>
+                <hr style="width: 100%;">
+                <p class="art-desc">  {{value['info']['created_date']}} </p>
+                <hr style="width: 100%;">
+                <p class="art-desc">  {{value['info']['created_location']}} </p>
+
+            </div>
+
+
+
+        </div>
     </div>
 
     <div class="art-desc-div">
