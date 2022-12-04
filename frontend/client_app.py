@@ -127,13 +127,33 @@ def home_display():
 
 
 # http://127.0.0.1:8000/gallery_display
-@app.route("/gallery_display")
+@app.route("/gallery_display", methods=["GET", "POST"])
 def gallery_display():
     if "curr_user" not in session:
         utils.redirect_signin_error(session, "gallery_display")
         return redirect(url_for("signin_user"))
 
-    response = requests.get(BASE + "/gallery")
+    _filter = request.args.getlist("_filter")
+    min_price = request.form.get("min-value")
+    max_price = request.form.get("max-value")
+
+    if _filter:
+        response = requests.get(
+            BASE + "/gallery",
+            {
+                f"{_filter[0]}_filter": _filter[1],
+            },
+        )
+    elif min_price and max_price:
+        response = requests.get(
+            BASE + "/gallery",
+            {
+                "min_value_filter": f"{min_price}-{max_price}",
+            },
+        )
+    else:
+        response = requests.get(BASE + "/gallery")
+
     response = response.json()
 
     return render_template("gallery.html", value=response)
@@ -186,7 +206,7 @@ def buy_art():
 
 
 def main():
-    app.run(port=8000)
+    app.run(debug=True, port=8000)
 
 
 if __name__ == "__main__":
