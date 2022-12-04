@@ -55,6 +55,10 @@ label{
     max-height: 15vh;
 }
 
+.header .child-container{
+    max-height: 15vh;
+}
+
 .img {
     object-fit: cover;
     height:100vh;

@@ -49,7 +49,7 @@ def get_session_error_msg(session):
 
 
 def redirect_signin_error(session, redirect_from, remember_redirect_from=True):
-    site_name = url_for(redirect_from).replace('_', ' ').replace('/', '')
+    site_name = url_for(redirect_from).replace("_", " ").replace("/", "")
     session["error_msg"] = f"You must login to see {site_name} site"
 
     if remember_redirect_from:

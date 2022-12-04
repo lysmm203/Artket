@@ -7,6 +7,6 @@ ART_MEDIUM = {
     "pastels",
     "chalk",
     "graphite pencils",
-    "colored pencils",
-    "pen and ink",
+    # "colored pencils",
+    # "pen and ink",
 }
