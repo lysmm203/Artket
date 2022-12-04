@@ -6,33 +6,35 @@
     <img class = "login-img" src="/static/images/monalisa.jpeg">
 </div>
 
-<div class="child-container" style="flex-flow:wrap; height: 100vh;">
-    <div class="page-indicator">
-        Login
-    </div>
+<div class="child-container" style="height: 100vh;">
+    <div class="card-in-column">
+        <form method="POST" class="card-form">
 
-    <form method="POST">
-        {% if error_msg %}
-            <div style="color: red;">
-                {{ error_msg }}
+            <p class="page-indicator" style="margin: 0;">Login</p>
+
+            {% if error_msg %}
+                <div style="color: red;">
+                    {{ error_msg }}
+                </div>
+            {% endif %}
+
+
+            <div>
+                <label for="email-or-phone">Email or Phone Number: </label>
+                <input type="text" id="email-or-phone" name="email-or-phone" style="width: 100%;">
             </div>
-        {% endif %}
 
-        <div>
-            <label for="email-or-phone">Email or Phone Number: </label>
-            <input type="text" id="email-or-phone" name="email-or-phone">
-        </div>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" style="width: 100%;">
+            </div>
 
-        <div>
-            <label for="password">Password: </label>
-            <input type="password" id="password" name="password">
-        </div>
-
-        <div style="display: flex;">
-            <button type="submit" class="form-button" name="submit-button" value="login">Login</button>
-            <button type="submit" class="form-button" name="submit-button" value="register" onclick="{{url_for('signup_user')}}">Register</button>
-        </div>
-    </form>
+            <div style="display: flex; justify-content: space-between;">
+                <button type="submit" class="none-nav-button" name="submit-button" value="login">Login</button>
+                <button type="submit" class="none-nav-button" name="submit-button" value="register" onclick="{{url_for('signup_user')}}">Register</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

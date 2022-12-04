@@ -156,7 +156,7 @@ def img_display():
 
 
 # http://127.0.0.1:8000/buy_art/
-@app.route("/buy_art")
+@app.route("/buy_art", methods=["GET", "POST"])
 def buy_art():
     if "curr_user" not in session:
         utils.redirect_signin_error(session, "buy_art", False)
@@ -167,6 +167,21 @@ def buy_art():
         BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
     )
     response = response.json()
+
+    card_number = request.form.get("card-number")
+    expiration_date = request.form.get("expiration-date")
+    cvv_code = request.form.get("cvv-code")
+    paid_amount = request.form.get("paid-amount")
+    shipping_address = request.form.get("shipping-address")
+
+    print(f"Card Number: {card_number}")
+    print(f"Expiration Date: {expiration_date}")
+    print(f"CVV Code:: {cvv_code}")
+    print(f"Paid Amount: {paid_amount}")
+    print(f"Shipping address: {shipping_address}")
+
+
+
     # response = requests.post(
     #     BASE + "/artwork/buy",
     #     json={
@@ -186,7 +201,7 @@ def buy_art():
 
 
 def main():
-    app.run(port=8000)
+    app.run(port=8000, debug=True)
 
 
 if __name__ == "__main__":
