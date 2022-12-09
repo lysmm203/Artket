@@ -101,6 +101,9 @@ def signup_user():
             }
         },
     )
+    if request.form["submit-button"] == "go_back":
+        print("AIOWDHUAIOW")
+        return redirect(url_for("signin_user"))
 
     if response.status_code == 200:
         session["curr_user"] = response.json()
