@@ -11,9 +11,9 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route("/")
 def base_url():
-    # for dev only
-    if "curr_user" in session:
-        del session["curr_user"]
+    # # for dev only
+    # if "curr_user" in session:
+    #     del session["curr_user"]
 
     if "curr_user" not in session:
         return redirect(url_for("signin_user"))
@@ -142,14 +142,20 @@ def gallery_display():
     min_price = request.form.get("min-value")
     max_price = request.form.get("max-value")
 
+    filter_display = None
     if _filter:
+        filter_display = f"{_filter[0]}: {_filter[1]}".title()
         response = requests.get(
             BASE + "/gallery",
             {
                 f"{_filter[0]}_filter": _filter[1],
             },
         )
+
     elif min_price and max_price:
+        filter_display = "Price: $" + " - $".join(
+            sorted([min_price, max_price])
+        )
         response = requests.get(
             BASE + "/gallery",
             {
@@ -161,7 +167,11 @@ def gallery_display():
 
     response = response.json()
 
-    return render_template("gallery.html", value=response)
+    return render_template(
+        template_name_or_list="gallery.html",
+        value=response,
+        filter_display=filter_display,
+    )
 
 
 # http://127.0.0.1:8000/img_display
@@ -190,44 +200,64 @@ def buy_art():
         utils.redirect_signin_error(session, "buy_art", False)
         return redirect(url_for("signin_user"))
 
+    if request.method == "POST":
+        if request.form["submit-button"] == "back_to_gallery":
+            return redirect(url_for("gallery_display"))
+
     img_uid = request.args.get("img_id")
-    response = requests.get(
+    response_img = requests.get(
         BASE + "/artwork/get", json={"data": {"uid": int(img_uid)}}
     )
-    response = response.json()
+    response_img = response_img.json()
 
-    if request.method == "POST":
+    error_msg = None
+    purchase_success = None
+
+    if (
+            request.method == "POST"
+            and request.form["submit-button"] == "purchase"
+    ):
         buyer_uid = session["curr_user"]["uid"]
         buyer_password = session["curr_user"]["password"]
 
-        min_value = session["curr_img_min_val"]
-
-        card_number = request.form.get("card-number")
-        expiration_year, expiration_month = request.form.get(
-            "expiration-date").split("-")
+        card_number = ''.join(
+            filter(str.isdigit, request.form.get("card-number"))
+        )
+        # expiration_year, expiration_month = request.form.get(
+        #     "expiration-date").split("-")
         cvv_code = request.form.get("cvv-code")
+
+        min_value = session["curr_img_min_val"]
         shipping_address = request.form.get("shipping-address")
 
-        response = requests.post(
+        response_buy = requests.post(
             BASE + "/artwork/buy",
             json={
                 "data": {
-                    "buyer_uid": buyer_uid,
-                    "buyer_password": buyer_password,
-                    "artwork_uid": img_uid,
-                    "card_number": card_number,
-                    "expire_date": f"{expiration_month}{expiration_year[2:]}",
-                    "cvv_code": cvv_code,
-                    "paid_amount": min_value,
+                    "buyer_uid": int(buyer_uid),
+                    "buyer_password": str(buyer_password),
+                    "artwork_uid": int(img_uid),
+                    "card_number": int(card_number),
+                    "expire_date": "11/30",
+                    "cvv_code": int(cvv_code),
+                    "paid_amount": int(min_value),
                 }
             },
         )
 
-        print(response.json())
-        # TODO: give user message when buy success, fix type error for the
-        #  request
+        if response_buy.status_code == 200:
+            purchase_success = shipping_address
 
-    return render_template("buy.html", value=response)
+        response_buy = response_buy.json()
+        if "error_msg" in response_buy:
+            error_msg = response_buy["error_msg"]
+
+    return render_template(
+        template_name_or_list="buy.html",
+        value=response_img,
+        error_msg=error_msg,
+        purchase_success=purchase_success,
+    )
 
 
 def main():

@@ -8,6 +8,14 @@
     </div>
 
     <div style="display: block;">
+    <div>
+        {% if filter_display %}
+                <div style="display: inline-block; padding: 2%; border-style: solid; border-radius: 25px;">
+                    {{ filter_display }}
+                </div>
+        {% endif %}
+    </div>
+
     {% for item in value %}
             <div class="gallery-img">
                 <a href="{{url_for('img_display', img_id=item['info']['uid'])}}">

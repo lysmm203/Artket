@@ -131,3 +131,4 @@ dmypy.json
 # additional ignore
 .idea/
 .vscode/
+history.json
