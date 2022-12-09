@@ -13,8 +13,14 @@
                 <a href="{{url_for('img_display', img_id=item['info']['uid'])}}">
                     <img class="gallery-img" style="margin: 0px;" src="data:image/png;base64,{{item['artpic']}}"/>
                 </a>
-                <strong><label style="font-size: 1.5em;">{{item["info"]["name"]}}</label></strong>
-                <label>{{item["info"]["artist"]}}</label>
+
+                <div style="display: block;">
+                    <strong><label style="font-size: 1.5em;">{{item["info"]["name"]}}</label></strong>
+                    <label>{{item["info"]["artist"]}}</label>
+                    <label>${{ item["info"]["min_value"]}}</label>
+                </div>
+
+
             </div>
 
     {% endfor %}
