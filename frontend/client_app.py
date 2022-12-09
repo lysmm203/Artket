@@ -11,9 +11,9 @@ BASE = "http://127.0.0.1:5000"
 
 @app.route("/")
 def base_url():
-    # # for dev only
-    # if "curr_user" in session:
-    #     del session["curr_user"]
+    # for dev only
+    if "curr_user" in session:
+        del session["curr_user"]
 
     if "curr_user" not in session:
         return redirect(url_for("signin_user"))
@@ -49,6 +49,7 @@ def signin_user():
 
     if response.status_code == 200:
         session["curr_user"] = response.json()
+        session["curr_user"]["password"] = password
 
         redirect_from = utils.get_session_redirect_from(session)
         if redirect_from:
@@ -71,6 +72,9 @@ def signup_user():
         return register_page()
 
     # code from this point req request.method == "POST"
+    if request.form["submit-button"] == "go_back":
+        return redirect(url_for("signin_user"))
+
     name = request.form.get("name")
     email = request.form.get("email")
     password = request.form.get("password")
@@ -100,12 +104,10 @@ def signup_user():
             }
         },
     )
-    if request.form["submit-button"] == "go_back":
-        print("AIOWDHUAIOW")
-        return redirect(url_for("signin_user"))
 
     if response.status_code == 200:
         session["curr_user"] = response.json()
+        session["curr_user"]["password"] = password
 
         redirect_from = utils.get_session_redirect_from(session)
         if redirect_from:
@@ -173,8 +175,11 @@ def img_display():
     response = requests.get(
         BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
     )
-    response = response.json()
 
+    if response.status_code == 200:
+        session["curr_img_min_val"] = response.json()["info"]["min_value"]
+
+    response = response.json()
     return render_template("information.html", value=response)
 
 
@@ -185,40 +190,42 @@ def buy_art():
         utils.redirect_signin_error(session, "buy_art", False)
         return redirect(url_for("signin_user"))
 
-    img_id = request.args.get("img_id")
+    img_uid = request.args.get("img_id")
     response = requests.get(
-        BASE + "/artwork/get", json={"data": {"uid": int(img_id)}}
+        BASE + "/artwork/get", json={"data": {"uid": int(img_uid)}}
     )
     response = response.json()
 
-    card_number = request.form.get("card-number")
-    expiration_date = request.form.get("expiration-date")
-    cvv_code = request.form.get("cvv-code")
-    paid_amount = request.form.get("paid-amount")
-    shipping_address = request.form.get("shipping-address")
+    if request.method == "POST":
+        buyer_uid = session["curr_user"]["uid"]
+        buyer_password = session["curr_user"]["password"]
 
-    print(f"Card Number: {card_number}")
-    print(f"Expiration Date: {expiration_date}")
-    print(f"CVV Code:: {cvv_code}")
-    print(f"Paid Amount: {paid_amount}")
-    print(f"Shipping address: {shipping_address}")
+        min_value = session["curr_img_min_val"]
 
+        card_number = request.form.get("card-number")
+        expiration_year, expiration_month = request.form.get(
+            "expiration-date").split("-")
+        cvv_code = request.form.get("cvv-code")
+        shipping_address = request.form.get("shipping-address")
 
+        response = requests.post(
+            BASE + "/artwork/buy",
+            json={
+                "data": {
+                    "buyer_uid": buyer_uid,
+                    "buyer_password": buyer_password,
+                    "artwork_uid": img_uid,
+                    "card_number": card_number,
+                    "expire_date": f"{expiration_month}{expiration_year[2:]}",
+                    "cvv_code": cvv_code,
+                    "paid_amount": min_value,
+                }
+            },
+        )
 
-    # response = requests.post(
-    #     BASE + "/artwork/buy",
-    #     json={
-    #         "data": {
-    #             "buyer_uid": 2,
-    #             "buyer_password": "dev_pw_test",
-    #             "artwork_uid": 3,
-    #             "card_number": 378282246310005,
-    #             "expire_date": "11/25",
-    #             "cvv_code": 498,
-    #             "paid_amount": 100000000,
-    #         }
-    #     },
-    # )
+        print(response.json())
+        # TODO: give user message when buy success, fix type error for the
+        #  request
 
     return render_template("buy.html", value=response)
 
