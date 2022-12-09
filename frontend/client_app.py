@@ -72,6 +72,9 @@ def signup_user():
         return register_page()
 
     # code from this point req request.method == "POST"
+    if request.form["submit-button"] == "go_back":
+        return redirect(url_for("signin_user"))
+
     name = request.form.get("name")
     email = request.form.get("email")
     password = request.form.get("password")
@@ -101,9 +104,6 @@ def signup_user():
             }
         },
     )
-    if request.form["submit-button"] == "go_back":
-        print("AIOWDHUAIOW")
-        return redirect(url_for("signin_user"))
 
     if response.status_code == 200:
         session["curr_user"] = response.json()
