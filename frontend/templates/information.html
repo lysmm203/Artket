@@ -15,33 +15,33 @@
     <div class="art-desc-div">
         <div style="display:flex; justify-content: center;">
             <div style="display: block;">
-                <p class="art-desc"> <b>Genre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
+                <p class="art-desc"> <b>Genre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> <b>Medium: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
+                <p class="art-desc"> <b>Medium: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> <b>Surface: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                <p class="art-desc"> <b>Surface: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> <b>Artist: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                <p class="art-desc"> <b>Artist: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> <b>Date of Creation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
+                <p class="art-desc"> <b>Date of Creation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> </p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> <b> Location of Creation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                <p class="art-desc"> <b> Location of Creation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> <b> Price: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                <p class="art-desc"> <b> Price: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
             </div>
 
             <div style="display: block;">
-                <p class="art-desc"> {{value['info']['genre']}} </p>
+                <p class="art-desc"> {{value['info']['genre'].title()}} </p>
                 <hr style="width: 100%;">
-                <p class="art-desc">  {{value['info']['medium']}} </p>
+                <p class="art-desc">  {{value['info']['medium'].title()}} </p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> {{value['info']['surface']}} </p>
+                <p class="art-desc"> {{value['info']['surface'].title()}} </p>
                 <hr style="width: 100%;">
-                <p class="art-desc"> {{value['info']['artist']}} </p>
+                <p class="art-desc"> {{value['info']['artist'].title()}} </p>
                 <hr style="width: 100%;">
-                <p class="art-desc">  {{value['info']['created_date']}} </p>
+                <p class="art-desc">  {{value['info']['created_date'].title()}} </p>
                 <hr style="width: 100%;">
-                <p class="art-desc">  {{value['info']['created_location']}} </p>
+                <p class="art-desc">  {{value['info']['created_location'].title()}} </p>
                 <hr style="width: 100%;">
                 <p class="art-desc">  ${{value['info']['min_value']}} </p>
             </div>

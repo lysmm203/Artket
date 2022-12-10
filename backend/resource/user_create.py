@@ -17,14 +17,14 @@ def validate_create_user_query(data_dict):
     }
 
     if (
-        not data_dict.keys() >= required_keys_type.keys()
-        or not all(
-            [
-                type(data_dict[_key]) == required_keys_type[_key]
-                for _key in data_dict
-            ]
-        )
-        or not all(data_dict.values())
+            not data_dict.keys() >= required_keys_type.keys()
+            or not all(
+        [
+            type(data_dict[_key]) == required_keys_type[_key]
+            for _key in data_dict
+        ]
+    )
+            or not all(data_dict.values())
     ):
         error_msg = (
             'Missing fields. All "email", "mobile", "username", "password", '
@@ -40,14 +40,19 @@ def validate_create_user_query(data_dict):
     if not re.fullmatch(email_regex, data_dict["email"]):
         return False, {"error_msg": "Invalid email address."}, Hsta.BAD_REQUEST
 
-    if not all(
-        [
-            len(data_dict["mobile"]) > 10,
-            data_dict["mobile"][0] == "+",
-            data_dict["mobile"][1:].isnumeric(),
-        ]
-    ) or not pn.is_valid_number(pn.parse(data_dict["mobile"])):
-        return False, {"error_msg": "Invalid phone number."}, Hsta.BAD_REQUEST
+    try:
+        valid_number = pn.is_valid_number(pn.parse(data_dict["mobile"]))
+        if not valid_number:
+            raise ValueError
+
+    except Exception as error_msg:
+        error_msg = str(error_msg).replace(".", " --").lower()
+        return False, {
+            "error_msg": (
+                f"Invalid phone number -- {error_msg[4:]} "
+                "suggestion: use E164 format."
+            )
+        }, Hsta.BAD_REQUEST
 
     return True, {"error_msg": ""}, Hsta.OK
 
