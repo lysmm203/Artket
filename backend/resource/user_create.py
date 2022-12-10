@@ -17,14 +17,14 @@ def validate_create_user_query(data_dict):
     }
 
     if (
-            not data_dict.keys() >= required_keys_type.keys()
-            or not all(
-        [
-            type(data_dict[_key]) == required_keys_type[_key]
-            for _key in data_dict
-        ]
-    )
-            or not all(data_dict.values())
+        not data_dict.keys() >= required_keys_type.keys()
+        or not all(
+            [
+                type(data_dict[_key]) == required_keys_type[_key]
+                for _key in data_dict
+            ]
+        )
+        or not all(data_dict.values())
     ):
         error_msg = (
             'Missing fields. All "email", "mobile", "username", "password", '
@@ -47,12 +47,16 @@ def validate_create_user_query(data_dict):
 
     except Exception as error_msg:
         error_msg = str(error_msg).replace(".", " --").lower()
-        return False, {
-            "error_msg": (
-                f"Invalid phone number -- {error_msg[4:]} "
-                "suggestion: use E164 format."
-            )
-        }, Hsta.BAD_REQUEST
+        return (
+            False,
+            {
+                "error_msg": (
+                    f"Invalid phone number -- {error_msg[4:]} "
+                    "suggestion: use E164 format."
+                )
+            },
+            Hsta.BAD_REQUEST,
+        )
 
     return True, {"error_msg": ""}, Hsta.OK
 

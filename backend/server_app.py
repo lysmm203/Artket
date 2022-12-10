@@ -1,12 +1,17 @@
 import os
+import sys
 
 from flask import Flask
 from flask_restful import Api
 
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
 from backend import db_models as dbm
+from resource.artwork_buy import BuyArtwork
 from resource.artwork_get import GetArtwork
 from resource.artwork_sell import SellArtwork
-from resource.artwork_buy import BuyArtwork
 from resource.gallery import Gallery
 from resource.user_create import CreateUser
 from resource.user_get import GetUser

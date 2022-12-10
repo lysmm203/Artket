@@ -1,6 +1,13 @@
+import os
+import sys
+
 import requests
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
 
 from frontend import utils
 
@@ -214,13 +221,13 @@ def buy_art():
     purchase_success = None
 
     if (
-            request.method == "POST"
-            and request.form["submit-button"] == "purchase"
+        request.method == "POST"
+        and request.form["submit-button"] == "purchase"
     ):
         buyer_uid = session["curr_user"]["uid"]
         buyer_password = session["curr_user"]["password"]
 
-        card_number = ''.join(
+        card_number = "".join(
             filter(str.isdigit, request.form.get("card-number"))
         )
         # expiration_year, expiration_month = request.form.get(
