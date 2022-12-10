@@ -3,8 +3,8 @@ from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 
-ARTPIC_LOC = "instance/artpic/"
-ART_HISTORY_LOC = "instance/history.json"
+ARTPIC_LOC = "backend/instance/artpic/"
+ART_HISTORY_LOC = "backend/instance/history.json"
 
 db = SQLAlchemy()
 
