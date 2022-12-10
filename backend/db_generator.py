@@ -218,7 +218,10 @@ def code_db_generator(db_session, code_model):
 
         return str(result_str)
 
-    print("checkpoint")
+    for i in range(10):
+        code = code_model(available_code=f"dev_default_invite_code_{i}")
+        db_session.add(code)
+
     for i in range(999):
         code = code_model(available_code=get_random_string(20))
         db_session.add(code)
